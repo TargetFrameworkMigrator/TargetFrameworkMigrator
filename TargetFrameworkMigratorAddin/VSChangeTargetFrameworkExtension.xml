@@ -1,0 +1,567 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TargetFrameworkMigrator</name>
+    </assembly>
+    <members>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute">
+            <summary>
+            Indicates that marked element should be localized or not.
+            </summary>
+            <example>
+            <code>
+            [LocalizationRequiredAttribute(true)]
+            public class Foo
+            {
+              private string str = "my string"; // Warning: Localizable string
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute"/> class with
+            <see cref="P:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute.Required"/> set to <see langword="true"/>.
+            </summary>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute"/> class.
+            </summary>
+            <param name="required"><c>true</c> if a element should be localized; otherwise, <c>false</c>.</param>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute.Equals(System.Object)">
+            <summary>
+            Returns whether the value of the given object is equal to the current <see cref="T:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute"/>.
+            </summary>
+            <param name="obj">The object to test the value equality of. </param>
+            <returns>
+            <c>true</c> if the value of the given object is equal to that of the current; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+            <returns>A hash code for the current <see cref="T:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute"/>.</returns>
+        </member>
+        <member name="P:VSChangeTargetFrameworkExtension.Annotations.LocalizationRequiredAttribute.Required">
+            <summary>
+            Gets a value indicating whether a element should be localized.
+            <value><c>true</c> if a element should be localized; otherwise, <c>false</c>.</value>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.StringFormatMethodAttribute">
+            <summary>
+            Indicates that the marked method builds string by format pattern and (optional) arguments. 
+            Parameter, which contains format string, should be given in constructor.
+            The format string should be in <see cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/> -like form
+            </summary>
+            <example>
+            <code>
+            [StringFormatMethod("message")]
+            public void ShowError(string message, params object[] args)
+            {
+              //Do something
+            }
+            public void Foo()
+            {
+              ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Annotations.StringFormatMethodAttribute.#ctor(System.String)">
+            <summary>
+            Initializes new instance of StringFormatMethodAttribute
+            </summary>
+            <param name="formatParameterName">Specifies which parameter of an annotated method should be treated as format-string</param>
+        </member>
+        <member name="P:VSChangeTargetFrameworkExtension.Annotations.StringFormatMethodAttribute.FormatParameterName">
+            <summary>
+            Gets format parameter name
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.InvokerParameterNameAttribute">
+            <summary>
+            Indicates that the function argument should be string literal and match one of the parameters
+            of the caller function.
+            For example, ReSharper annotates the parameter of <see cref="T:System.ArgumentNullException"/>.
+            </summary>
+            <example>
+            <code>
+            public void Foo(string param)
+            {
+              if (param == null)
+                throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.NotifyPropertyChangedInvocatorAttribute">
+             <summary>
+             Indicates that the method is contained in a type that implements
+             <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface
+             and this method is used to notify that some property value changed.
+             </summary>
+             <remarks>
+             The method should be non-static and conform to one of the supported signatures:
+             <list>
+             <item><c>NotifyChanged(string)</c></item>
+             <item><c>NotifyChanged(params string[])</c></item>
+             <item><c>NotifyChanged{T}(Expression{Func{T}})</c></item>
+             <item><c>NotifyChanged{T,U}(Expression{Func{T,U}})</c></item>
+             <item><c>SetProperty{T}(ref T, T, string)</c></item>
+             </list>
+             </remarks>
+             <example>
+             <code>
+             public class Foo : INotifyPropertyChanged
+             {
+               public event PropertyChangedEventHandler PropertyChanged;
+            
+               [NotifyPropertyChangedInvocator]
+               protected virtual void NotifyChanged(string propertyName)
+               {}
+            
+               private string _name;
+               public string Name
+               {
+                 get { return _name; }
+                 set
+                 {
+                   _name = value;
+                   NotifyChanged("LastName"); // Warning
+                 }
+               }
+             }
+             </code>
+             Examples of generated notifications:
+             <list>
+             <item><c>NotifyChanged("Property")</c></item>
+             <item><c>NotifyChanged(() =&gt; Property)</c></item>
+             <item><c>NotifyChanged((VM x) =&gt; x.Property)</c></item>
+             <item><c>SetProperty(ref myField, value, "Property")</c></item>
+             </list>
+             </example>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.CanBeNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could be <c>null</c> sometimes, 
+            so the check for <c>null</c> is necessary before its usage.
+            </summary>
+            <example>
+            <code>
+            [CanBeNull]
+            public object Test()
+            {
+              return null;
+            }
+            
+            public void UseTest()
+            {
+              var p = Test(); 
+              var s = p.ToString(); // Warning: Possible 'System.NullReferenceException' 
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.NotNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could never be <c>null</c>
+            </summary>
+            <example>
+            <code>
+            [NotNull]
+            public object Foo()
+            {
+              return null; // Warning: Possible 'null' assignment
+            } 
+            </code>
+            </example>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.ContractAnnotationAttribute">
+            <summary>
+            Describes dependency between method input and output.
+            </summary>
+            <syntax>
+            <p>Function Definition Table syntax:</p>
+            <list>
+            <item>FDT      ::= FDTRow [;FDTRow]*</item>
+            <item>FDTRow   ::= Input =&gt; Output | Output &lt;= Input</item>
+            <item>Input    ::= ParameterName: Value [, Input]*</item>
+            <item>Output   ::= [ParameterName: Value]* {halt|stop|void|nothing|Value}</item>
+            <item>Value    ::= true | false | null | notnull | canbenull</item>
+            </list>
+            If method has single input parameter, it's name could be omitted. <br/>
+            Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same) for method output means that the methos doesn't return normally. <br/>
+            <c>canbenull</c> annotation is only applicable for output parameters. <br/>
+            You can use multiple <c>[ContractAnnotation]</c> for each FDT row, or use single attribute with rows separated by semicolon. <br/>
+            </syntax>
+            <examples>
+            <list>
+            <item><code>
+            [ContractAnnotation("=> halt")]
+            public void TerminationMethod()
+            </code></item>
+            <item><code>
+            [ContractAnnotation("halt &lt;= condition: false")]
+            public void Assert(bool condition, string text) // Regular Assertion method
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null => true")]
+            public bool IsNullOrEmpty(string s) // String.IsNullOrEmpty
+            </code></item>
+            <item><code>
+            // A method that returns null if the parameter is null, and not null if the parameter is not null
+            [ContractAnnotation("null => null; notnull => notnull")]
+            public object Transform(object data) 
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null=>false; =>true,result:notnull; =>false, result:null")]
+            public bool TryParse(string s, out Person result)
+            </code></item>
+            </list>
+            </examples>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.CannotApplyEqualityOperatorAttribute">
+            <summary>
+            Indicates that the value of the marked type (or its derivatives)
+            cannot be compared using '==' or '!=' operators and <c>Equals()</c> should be used instead.
+            However, using '==' or '!=' for comparison with <c>null</c> is always permitted.
+            </summary>
+            <example>
+            <code>
+            [CannotApplyEqualityOperator]
+            class NoEquality
+            {
+            }
+            
+            class UsesNoEquality
+            {
+              public void Test()
+              {
+                var ca1 = new NoEquality();
+                var ca2 = new NoEquality();
+            
+                if (ca1 != null) // OK
+                {
+                  bool condition = ca1 == ca2; // Warning
+                }
+              }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.BaseTypeRequiredAttribute">
+            <summary>
+            When applied to a target attribute, specifies a requirement for any type marked with 
+            the target attribute to implement or inherit specific type or types.
+            </summary>
+            <example>
+            <code>
+            [BaseTypeRequired(typeof(IComponent)] // Specify requirement
+            public class ComponentAttribute : Attribute 
+            {}
+            
+            [Component] // ComponentAttribute requires implementing IComponent interface
+            public class MyComponent : IComponent
+            {}
+            </code>
+            </example>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Annotations.BaseTypeRequiredAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes new instance of BaseTypeRequiredAttribute
+            </summary>
+            <param name="baseType">Specifies which types are required</param>
+        </member>
+        <member name="P:VSChangeTargetFrameworkExtension.Annotations.BaseTypeRequiredAttribute.BaseTypes">
+            <summary>
+            Gets enumerations of specified base types
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.UsedImplicitlyAttribute">
+            <summary>
+            Indicates that the marked symbol is used implicitly (e.g. via reflection, in external library),
+            so this symbol will not be marked as unused (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="P:VSChangeTargetFrameworkExtension.Annotations.UsedImplicitlyAttribute.TargetFlags">
+            <summary>
+            Gets value indicating what is meant to be used
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.MeansImplicitUseAttribute">
+            <summary>
+            Should be used on attributes and causes ReSharper
+            to not mark symbols marked with such attributes as unused (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="P:VSChangeTargetFrameworkExtension.Annotations.MeansImplicitUseAttribute.TargetFlags">
+            <summary>
+            Gets value indicating what is meant to be used
+            </summary>
+        </member>
+        <member name="F:VSChangeTargetFrameworkExtension.Annotations.ImplicitUseKindFlags.Access">
+            <summary>
+            Only entity marked with attribute considered used
+            </summary>
+        </member>
+        <member name="F:VSChangeTargetFrameworkExtension.Annotations.ImplicitUseKindFlags.Assign">
+            <summary>
+            Indicates implicit assignment to a member
+            </summary>
+        </member>
+        <member name="F:VSChangeTargetFrameworkExtension.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature">
+            <summary>
+            Indicates implicit instantiation of a type with fixed constructor signature.
+            That means any unused constructor parameters won't be reported as such.
+            </summary>
+        </member>
+        <member name="F:VSChangeTargetFrameworkExtension.Annotations.ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature">
+            <summary>
+            Indicates implicit instantiation of a type
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.ImplicitUseTargetFlags">
+            <summary>
+            Specify what is considered used implicitly when marked with <see cref="T:VSChangeTargetFrameworkExtension.Annotations.MeansImplicitUseAttribute"/> or <see cref="T:VSChangeTargetFrameworkExtension.Annotations.UsedImplicitlyAttribute"/>
+            </summary>
+        </member>
+        <member name="F:VSChangeTargetFrameworkExtension.Annotations.ImplicitUseTargetFlags.Members">
+            <summary>
+            Members of entity marked with attribute are considered used
+            </summary>
+        </member>
+        <member name="F:VSChangeTargetFrameworkExtension.Annotations.ImplicitUseTargetFlags.WithMembers">
+            <summary>
+            Entity marked with attribute and all its members considered used
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.PublicAPIAttribute">
+            <summary>
+            This attribute is intended to mark publicly available API which should not be removed and so is treated as used.
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.InstantHandleAttribute">
+            <summary>
+            Tells code analysis engine if the parameter is completely handled when the invoked method is on stack. 
+            If the parameter is a delegate, indicates that delegate is executed while the method is executed.
+            If the parameter is an enumerable, indicates that it is enumerated while the method is executed.
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.PureAttribute">
+             <summary>
+             Indicates that a method does not make any observable state changes.
+             The same as <see cref="T:System.Diagnostics.Contracts.PureAttribute"/>
+             </summary>
+             <example>
+             <code>
+             [Pure]
+             private int Multiply(int x, int y)
+             {
+               return x*y;
+             }
+            
+             public void Foo()
+             {
+               const int a=2, b=2;
+               Multiply(a, b); // Waring: Return value of pure method is not used
+             }
+             </code>
+             </example>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.PathReferenceAttribute">
+            <summary>
+            Indicates that a parameter is a path to a file or a folder within a web project.
+            Path can be relative or absolute, starting from web root (~).
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcActionAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC action.
+            If applied to a method, the MVC action name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcAreaAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC araa.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcControllerAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC controller.
+            If applied to a method, the MVC controller name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)"/> 
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcMasterAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC Master.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Controller.View(String, String)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcModelTypeAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC model type.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Controller.View(String, Object)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcPartialViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC partial view.
+            If applied to a method, the MVC partial view name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcSupressViewErrorAttribute">
+            <summary>
+            ASP.NET MVC attribute. Allows disabling all inspections for MVC views within a class or a method.
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcDisplayTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcEditorTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC view.
+            If applied to a method, the MVC view name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.Mvc.Controller.View(Object)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.AspMvcActionSelectorAttribute">
+            <summary>
+            ASP.NET MVC attribute. When applied to a parameter of an attribute,
+            indicates that this parameter is an MVC action name.
+            </summary>
+            <example>
+            <code>
+            [ActionName("Foo")]
+            public ActionResult Login(string returnUrl)
+            {
+              ViewBag.ReturnUrl = Url.Action("Foo"); // OK
+              return RedirectToAction("Bar"); // Error: Cannot resolve action
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Annotations.RazorSectionAttribute">
+            <summary>
+            Razor attribute. Indicates that a parameter or a method is a Razor section.
+            Use this attribute for custom wrappers similar to 
+            <see cref="!:System.Web.WebPages.WebPageBase.RenderSection(String)"/>
+            </summary>
+        </member>
+        <member name="T:VSChangeTargetFrameworkExtension.Connect">
+            <summary>The object for implementing an Add-in.</summary>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.#ctor">
+            <summary>Implements the constructor for the Add-in object. Place your initialization code within this method.</summary>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.OnConnection(System.Object,Extensibility.ext_ConnectMode,System.Object,System.Array@)">
+            <summary>Implements the OnConnection method of the IDTExtensibility2 interface. Receives notification that the Add-in is being loaded.</summary>
+            <param term='application'>Root object of the host application.</param>
+            <param term='connectMode'>Describes how the Add-in is being loaded.</param>
+            <param term='addInInst'>Object representing this Add-in.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.OnDisconnection(Extensibility.ext_DisconnectMode,System.Array@)">
+            <summary>Implements the OnDisconnection method of the IDTExtensibility2 interface. Receives notification that the Add-in is being unloaded.</summary>
+            <param term='disconnectMode'>Describes how the Add-in is being unloaded.</param>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.OnAddInsUpdate(System.Array@)">
+            <summary>Implements the OnAddInsUpdate method of the IDTExtensibility2 interface. Receives notification when the collection of Add-ins has changed.</summary>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />		
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.OnStartupComplete(System.Array@)">
+            <summary>Implements the OnStartupComplete method of the IDTExtensibility2 interface. Receives notification that the host application has completed loading.</summary>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.OnBeginShutdown(System.Array@)">
+            <summary>Implements the OnBeginShutdown method of the IDTExtensibility2 interface. Receives notification that the host application is being unloaded.</summary>
+            <param term='custom'>Array of parameters that are host application specific.</param>
+            <seealso class='IDTExtensibility2' />
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.QueryStatus(System.String,EnvDTE.vsCommandStatusTextWanted,EnvDTE.vsCommandStatus@,System.Object@)">
+            <summary>Implements the QueryStatus method of the IDTCommandTarget interface. This is called when the command's availability is updated</summary>
+            <param term='commandName'>The name of the command to determine state for.</param>
+            <param term='neededText'>Text that is needed for the command.</param>
+            <param term='status'>The state of the command in the user interface.</param>
+            <param term='commandText'>Text requested by the neededText parameter.</param>
+            <seealso class='Exec' />
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.Connect.Exec(System.String,EnvDTE.vsCommandExecOption,System.Object@,System.Object@,System.Boolean@)">
+            <summary>Implements the Exec method of the IDTCommandTarget interface. This is called when the command is invoked.</summary>
+            <param term='commandName'>The name of the command to execute.</param>
+            <param term='executeOption'>Describes how the command should be run.</param>
+            <param term='varIn'>Parameters passed from the caller to the command handler.</param>
+            <param term='varOut'>Parameters passed from the command handler to the caller.</param>
+            <param term='handled'>Informs the caller if the command was handled or not.</param>
+            <seealso class='Exec' />
+        </member>
+        <member name="F:VSChangeTargetFrameworkExtension.ProjectsUpdateList.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.ProjectsUpdateList.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VSChangeTargetFrameworkExtension.ProjectsUpdateList.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:TargetFrameworkMigrator.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:TargetFrameworkMigrator.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:TargetFrameworkMigrator.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:TargetFrameworkMigrator.Properties.Resources._1359311863_stock_update_fields">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+    </members>
+</doc>
