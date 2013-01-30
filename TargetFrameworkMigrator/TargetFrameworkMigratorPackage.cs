@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
+using System.Threading;
+using System.Windows.Forms;
 using EnvDTE;
 using Microsoft.Win32;
 using Microsoft.VisualStudio;
@@ -11,6 +13,7 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using VSChangeTargetFrameworkExtension;
 using IServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
+using Thread = System.Threading.Thread;
 
 namespace VHQLabs.TargetFrameworkMigrator
 {
@@ -74,6 +77,9 @@ namespace VHQLabs.TargetFrameworkMigrator
         }
         #endregion
 
+        private ManualResetEventSlim manualResetEvent = new ManualResetEventSlim();
+        private SynchronizationContext synchronizationContext;
+
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.
         /// See the Initialize method to see how the menu item is associated to this function using
@@ -106,7 +112,24 @@ namespace VHQLabs.TargetFrameworkMigrator
             var solutionLoadEvents = new SolutionLoadEvents(serviceProvider);
 
             var runner = new Runner(dte);
-            solutionLoadEvents.AfterSolutionLoaded += () => runner.Run();
+            solutionLoadEvents.AfterSolutionLoaded += () =>
+                {
+                    manualResetEvent.Set();
+                    synchronizationContext.Post(_ => runner.Run(), null);
+                };
+
+            var form = new Form();
+            form.Text = "Waiting all projects are loaded";
+            form.Show();
+            synchronizationContext = SynchronizationContext.Current;
+
+            var thread = new Thread(() =>
+                {
+                    manualResetEvent.Wait();
+                    synchronizationContext.Post(_ => form.Close(),null);
+                });
+            thread.Name = "TargetFrameworkWaitDialogThread";
+            thread.Start();
         }
 
     }
