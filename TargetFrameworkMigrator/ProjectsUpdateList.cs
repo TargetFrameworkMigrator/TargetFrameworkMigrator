@@ -25,7 +25,11 @@ namespace VSChangeTargetFrameworkExtension
         public List<FrameworkModel> Frameworks { set { comboBox1.DataSource = value; } }
         public List<ProjectModel> Projects
         {
-            set { dataGridView1.DataSource = value; }
+            set
+            {
+                dataGridView1.DataSource = value;
+                dataGridView1.Refresh();
+            }
             get { return (List<ProjectModel>) dataGridView1.DataSource; }
         }
 

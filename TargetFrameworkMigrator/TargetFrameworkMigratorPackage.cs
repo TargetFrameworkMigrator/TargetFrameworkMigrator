@@ -69,6 +69,24 @@ namespace VHQLabs.TargetFrameworkMigrator
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
             {
+                DTE dte = (DTE)GetService(typeof(DTE));
+
+                migrator = new Migrator(dte);
+                var serviceProvider = new ServiceProvider((IServiceProvider)dte);
+                solutionLoadEvents = new SolutionLoadEvents(serviceProvider);
+                synchronizationContext = SynchronizationContext.Current;
+
+                solutionLoadEvents.BeforeSolutionLoaded += () =>
+                {
+                    synchronizationContext.Post(_ => migrator.OnBeforeSolutionLoaded(), null);
+                };
+                
+                solutionLoadEvents.AfterSolutionLoaded += () =>
+                {
+                    synchronizationContext.Post(_ => migrator.OnAfterSolutionLoaded(), null);
+                };
+
+
                 // Create the command for the menu item.
                 CommandID menuCommandID = new CommandID(GuidList.guidTargetFrameworkMigratorCmdSet, (int)PkgCmdIDList.cmdidTargetFrameworkMigrator);
                 MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID );
@@ -77,8 +95,9 @@ namespace VHQLabs.TargetFrameworkMigrator
         }
         #endregion
 
-        private ManualResetEventSlim manualResetEvent = new ManualResetEventSlim();
         private SynchronizationContext synchronizationContext;
+        private SolutionLoadEvents solutionLoadEvents;
+        private Migrator migrator;
 
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.
@@ -87,49 +106,9 @@ namespace VHQLabs.TargetFrameworkMigrator
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-//            // Show a Message Box to prove we were here
-//            IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
-//            
-//            Guid clsid = Guid.Empty;
-//            int result;
-//            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
-//                       0,
-//                       ref clsid,
-//                       "TargetFrameworkMigrator",
-//                       string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.ToString()),
-//                       string.Empty,
-//                       0,
-//                       OLEMSGBUTTON.OLEMSGBUTTON_OK,
-//                       OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
-//                       OLEMSGICON.OLEMSGICON_INFO,
-//                       0,        // false
-//                       out result));
-
             DTE dte = (DTE)GetService(typeof(DTE));
 
-            var serviceProvider = new ServiceProvider((IServiceProvider) dte);
-
-            var solutionLoadEvents = new SolutionLoadEvents(serviceProvider);
-
-            var runner = new Runner(dte);
-            solutionLoadEvents.AfterSolutionLoaded += () =>
-                {
-                    manualResetEvent.Set();
-                    synchronizationContext.Post(_ => runner.Run(), null);
-                };
-
-            var form = new Form();
-            form.Text = "Waiting all projects are loaded";
-            form.Show();
-            synchronizationContext = SynchronizationContext.Current;
-
-            var thread = new Thread(() =>
-                {
-                    manualResetEvent.Wait();
-                    synchronizationContext.Post(_ => form.Close(),null);
-                });
-            thread.Name = "TargetFrameworkWaitDialogThread";
-            thread.Start();
+            migrator.Show();
         }
 
     }
@@ -150,10 +129,15 @@ namespace VHQLabs.TargetFrameworkMigrator
 
 
 
+        public event Action BeforeSolutionLoaded;
         public event Action AfterSolutionLoaded;
 
         public int OnBeforeOpenSolution(string pszSolutionFilename)
         {
+            var @event = BeforeSolutionLoaded;
+            if (@event != null)
+                @event.Invoke();
+
             return VSConstants.S_OK;
         }
 
@@ -244,6 +228,7 @@ namespace VHQLabs.TargetFrameworkMigrator
                 GC.SuppressFinalize(this);
                 solution.UnadviseSolutionEvents(solutionEventsCookie);
                 AfterSolutionLoaded = null;
+                BeforeSolutionLoaded = null;
                 solutionEventsCookie = 0;
                 solution = null;
             }

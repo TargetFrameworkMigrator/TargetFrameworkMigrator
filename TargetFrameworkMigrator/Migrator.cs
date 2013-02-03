@@ -11,13 +11,15 @@ using EnvDTE80;
 
 namespace VSChangeTargetFrameworkExtension
 {
-    public class Runner
+    public class Migrator
     {
         private readonly DTE applicationObject;
         private ProjectsUpdateList projectsUpdateList;
         private List<FrameworkModel> frameworkModels;
 
-        public Runner(DTE applicationObject)
+        private object syncRoot = new object();
+
+        public Migrator(DTE applicationObject)
         {
             this.applicationObject = applicationObject;
             
@@ -31,34 +33,76 @@ namespace VSChangeTargetFrameworkExtension
             frameworkModels.Add(new FrameworkModel() { Id = 131072, Name = ".NETFramework,Version=v2.0" });
         }
 
-        public void Run()
+        private bool isSolutionLoaded = false;
+
+        public void Show()
         {
-            Debug.WriteLine("Run!");
-
-            if (applicationObject.Solution == null)
+            lock (syncRoot)
             {
-                MessageBox.Show("No solution");
-                return;
+                projectsUpdateList = new ProjectsUpdateList();
+
+                projectsUpdateList.Frameworks = frameworkModels;
+
+                projectsUpdateList.UpdateFired += projectsUpdateList_UpdateFired;
+
+                projectsUpdateList.State = "Waiting all projects are loaded...";
+
+                if (applicationObject.Solution == null)
+                {
+                    projectsUpdateList.State = "No solution";
+                }
+                else
+                {
+                    if(isSolutionLoaded)
+                        ReloadProjects();
+                }
+
+                projectsUpdateList.StartPosition = FormStartPosition.CenterScreen;
+                projectsUpdateList.TopMost = true;
+                projectsUpdateList.ShowDialog();
+                
             }
+        }
 
-            projectsUpdateList = new ProjectsUpdateList();
+        public void OnBeforeSolutionLoaded()
+        {
+            lock (syncRoot)
+            {
+                if(projectsUpdateList!=null)
+                    projectsUpdateList.State = "Waiting all projects are loaded...";
 
+                isSolutionLoaded = false;
+                
+            }
+        }
+
+        public void OnAfterSolutionLoaded()
+        {
+            lock (syncRoot)
+            {
+                isSolutionLoaded = true;
+
+                if(projectsUpdateList!=null && projectsUpdateList.Visible)
+                    ReloadProjects();
+            }
+        }
+
+        private void ReloadProjects()
+        {
             var projectModels = LoadProjects();
 
             if (projectModels.Count == 0)
             {
-                MessageBox.Show("No .Net projects");
-                return;
+                projectsUpdateList.State = "No .Net projects";
+            }
+            else
+            {
+                projectsUpdateList.State = String.Empty;
             }
 
+
+
             projectsUpdateList.Projects = projectModels;
-
-            
-            projectsUpdateList.Frameworks = frameworkModels;
-
-            projectsUpdateList.UpdateFired += projectsUpdateList_UpdateFired;
-
-            projectsUpdateList.ShowDialog();
         }
 
         private List<ProjectModel> LoadProjects()
@@ -83,6 +127,9 @@ namespace VSChangeTargetFrameworkExtension
             List<ProjectModel> projectModels = new List<ProjectModel>();
             foreach (Project p in projects)
             {
+                if (p == null)
+                    continue;
+
                 if (p.Kind == ProjectKinds.vsProjectKindSolutionFolder)
                 {
                     var projectItems = p.ProjectItems.OfType<ProjectItem>();
