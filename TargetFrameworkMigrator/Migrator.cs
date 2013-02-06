@@ -1,12 +1,13 @@
-﻿using System;
+﻿// Copyright (c) 2013 Pavel Samokha
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EnvDTE;
-using EnvDTE100;
 using EnvDTE80;
 
 namespace VSChangeTargetFrameworkExtension
@@ -24,26 +25,30 @@ namespace VSChangeTargetFrameworkExtension
             this.applicationObject = applicationObject;
             
             frameworkModels = new List<FrameworkModel>();
-            frameworkModels.Add(new FrameworkModel() { Id = 262149, Name = ".NETFramework,Version=v4.5" });
-            frameworkModels.Add(new FrameworkModel() { Id = 262144, Name = ".NETFramework,Version=v4.0" });
-            frameworkModels.Add(new FrameworkModel() { Id = 262144, Name = ".NETFramework,Version=v4.0,Profile=Client" });
-            frameworkModels.Add(new FrameworkModel() { Id = 196613, Name = ".NETFramework,Version=v3.5" });
-            frameworkModels.Add(new FrameworkModel() { Id = 196613, Name = ".NETFramework,Version=v3.5,Profile=Client" });
-            frameworkModels.Add(new FrameworkModel() { Id = 196608, Name = ".NETFramework,Version=v3.0" });
-            frameworkModels.Add(new FrameworkModel() { Id = 131072, Name = ".NETFramework,Version=v2.0" });
+            frameworkModels.Add(new FrameworkModel { Id = 262149, Name = ".NETFramework,Version=v4.5" });
+            frameworkModels.Add(new FrameworkModel { Id = 262144, Name = ".NETFramework,Version=v4.0" });
+            frameworkModels.Add(new FrameworkModel { Id = 262144, Name = ".NETFramework,Version=v4.0,Profile=Client" });
+            frameworkModels.Add(new FrameworkModel { Id = 196613, Name = ".NETFramework,Version=v3.5" });
+            frameworkModels.Add(new FrameworkModel { Id = 196613, Name = ".NETFramework,Version=v3.5,Profile=Client" });
+            frameworkModels.Add(new FrameworkModel { Id = 196608, Name = ".NETFramework,Version=v3.0" });
+            frameworkModels.Add(new FrameworkModel { Id = 131072, Name = ".NETFramework,Version=v2.0" });
         }
 
-        private bool isSolutionLoaded = false;
+        private bool isSolutionLoaded = true;
+        private SynchronizationContext synchronizationContext;
 
         public void Show()
         {
             lock (syncRoot)
             {
+                synchronizationContext = SynchronizationContext.Current;
+
                 projectsUpdateList = new ProjectsUpdateList();
 
+                projectsUpdateList.UpdateFired += Update;
+                projectsUpdateList.ReloadFired += ReloadProjects;
+               
                 projectsUpdateList.Frameworks = frameworkModels;
-
-                projectsUpdateList.UpdateFired += projectsUpdateList_UpdateFired;
 
                 projectsUpdateList.State = "Waiting all projects are loaded...";
 
@@ -91,16 +96,7 @@ namespace VSChangeTargetFrameworkExtension
         {
             var projectModels = LoadProjects();
 
-            if (projectModels.Count == 0)
-            {
-                projectsUpdateList.State = "No .Net projects";
-            }
-            else
-            {
-                projectsUpdateList.State = String.Empty;
-            }
-
-
+            projectsUpdateList.State = projectModels.Count == 0 ? "No .Net projects" : String.Empty;
 
             projectsUpdateList.Projects = projectModels;
         }
@@ -147,7 +143,7 @@ namespace VSChangeTargetFrameworkExtension
 
         private static ProjectModel MapProject(Project p)
         {
-            var projectModel = new ProjectModel()
+            var projectModel = new ProjectModel
                 {
                     Name = p.Name,
                     DteProject = p,
@@ -156,7 +152,7 @@ namespace VSChangeTargetFrameworkExtension
             {
                 try
                 {
-                    var frameworkModel = new FrameworkModel()
+                    var frameworkModel = new FrameworkModel
                         {
                             Id = (uint) p.Properties.Item("TargetFramework").Value,
                             Name = (string) p.Properties.Item("TargetFrameworkMoniker").Value
@@ -165,13 +161,17 @@ namespace VSChangeTargetFrameworkExtension
                 }
                 catch (ArgumentException e) //possible when project still loading
                 {
-                    Debug.WriteLine("ArgumentException on " + p + e);
+                    Debug.WriteLine("ArgumentException on " + projectModel + e);
+                }
+                catch (InvalidCastException e) //for some projects with wrong types
+                {
+                    Debug.WriteLine("InvalidCastException on " + projectModel + e);
                 }
             }
             return projectModel;
         }
 
-        async void projectsUpdateList_UpdateFired()
+        async void Update()
         {
             FrameworkModel frameworkModel = projectsUpdateList.SelectedFramework;
 
@@ -192,8 +192,20 @@ namespace VSChangeTargetFrameworkExtension
 
                     foreach (var projectModel in enumerable)
                     {
-                        projectModel.DteProject.Properties.Item("TargetFrameworkMoniker").Value = frameworkModel.Name;
-                        //                projectModel.DteProject.Properties.Item("TargetFramework").Value = frameworkModel.Id;
+                        try
+                        {
+                            projectModel.DteProject.Properties.Item("TargetFrameworkMoniker").Value = frameworkModel.Name;
+
+                            synchronizationContext.Post(o =>
+                                {
+                                    var pm = (ProjectModel)o;
+                                    projectsUpdateList.State = string.Format("Updating... {0} done", pm.Name);
+                                },projectModel);
+                        }
+                        catch (COMException e) //possible "project unavailable" for unknown reasons
+                        {
+                            Debug.WriteLine("COMException on "+projectModel.Name+e);
+                        }
                     }
                 });
         }

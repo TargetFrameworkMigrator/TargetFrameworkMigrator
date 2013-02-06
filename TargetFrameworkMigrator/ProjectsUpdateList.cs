@@ -1,12 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2013 Pavel Samokha
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using EnvDTE;
 using VSChangeTargetFrameworkExtension.Annotations;
@@ -15,6 +11,9 @@ namespace VSChangeTargetFrameworkExtension
 {
     public partial class ProjectsUpdateList : Form
     {
+        public event Action UpdateFired;
+        public event Action ReloadFired;
+
         public ProjectsUpdateList()
         {
             InitializeComponent();
@@ -40,8 +39,6 @@ namespace VSChangeTargetFrameworkExtension
 
         public string State { set { label1.Text = value; } }
 
-        public event Action UpdateFired;
-
         private async void button3_Click(object sender, EventArgs e)
         {
             var onUpdate = UpdateFired;
@@ -66,11 +63,20 @@ namespace VSChangeTargetFrameworkExtension
             }
             dataGridView1.Refresh();
         }
+
+        private void reloadButton_Click(object sender, EventArgs e)
+        {
+            var onReloadFired = ReloadFired;
+            if(onReloadFired != null)
+                onReloadFired.Invoke();
+        }
     }
 
     public class ProjectModel:INotifyPropertyChanged
     {
         private bool isSelected;
+        private string name;
+
         public bool IsSelected
         {
             get { return isSelected; }
@@ -81,7 +87,16 @@ namespace VSChangeTargetFrameworkExtension
             }
         }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
+
         public FrameworkModel Framework { get; set; }
 
         public bool HasFramework
