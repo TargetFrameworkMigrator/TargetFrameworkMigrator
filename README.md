@@ -9,7 +9,7 @@ If you have solution with many projects and want to migrate to new version of .N
 
 Features:
 
-* Support .Net Frameworks 2.0-4.5
+* Support .Net Frameworks 2.0-4.5.1
 * Support solution folders 
 
 Available through Tools -> Target Framework Migrator
