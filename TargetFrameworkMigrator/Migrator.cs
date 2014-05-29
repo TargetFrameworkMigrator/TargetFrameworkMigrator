@@ -25,6 +25,7 @@ namespace VSChangeTargetFrameworkExtension
             this.applicationObject = applicationObject;
 
             frameworkModels = new List<FrameworkModel>();
+            frameworkModels.Add(new FrameworkModel { Id = 262661, Name = ".NETFramework,Version=v4.5.2" });
             frameworkModels.Add(new FrameworkModel { Id = 262405, Name = ".NETFramework,Version=v4.5.1" });
             frameworkModels.Add(new FrameworkModel { Id = 262149, Name = ".NETFramework,Version=v4.5" });
             frameworkModels.Add(new FrameworkModel { Id = 262144, Name = ".NETFramework,Version=v4.0" });
