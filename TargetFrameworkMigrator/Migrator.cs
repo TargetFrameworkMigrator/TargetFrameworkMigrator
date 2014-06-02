@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using EnvDTE;
 using EnvDTE80;
 
@@ -25,15 +28,13 @@ namespace VSChangeTargetFrameworkExtension
             this.applicationObject = applicationObject;
 
             frameworkModels = new List<FrameworkModel>();
-            frameworkModels.Add(new FrameworkModel { Id = 262661, Name = ".NETFramework,Version=v4.5.2" });
-            frameworkModels.Add(new FrameworkModel { Id = 262405, Name = ".NETFramework,Version=v4.5.1" });
-            frameworkModels.Add(new FrameworkModel { Id = 262149, Name = ".NETFramework,Version=v4.5" });
-            frameworkModels.Add(new FrameworkModel { Id = 262144, Name = ".NETFramework,Version=v4.0" });
-            frameworkModels.Add(new FrameworkModel { Id = 262144, Name = ".NETFramework,Version=v4.0,Profile=Client" });
-            frameworkModels.Add(new FrameworkModel { Id = 196613, Name = ".NETFramework,Version=v3.5" });
-            frameworkModels.Add(new FrameworkModel { Id = 196613, Name = ".NETFramework,Version=v3.5,Profile=Client" });
-            frameworkModels.Add(new FrameworkModel { Id = 196608, Name = ".NETFramework,Version=v3.0" });
-            frameworkModels.Add(new FrameworkModel { Id = 131072, Name = ".NETFramework,Version=v2.0" });
+
+            var folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            var frameworks = new XmlDocument();
+            frameworks.Load(Path.Combine(folderPath, "Frameworks.xml"));
+            foreach (XmlNode node in frameworks.DocumentElement.ChildNodes)
+                frameworkModels.Add(new FrameworkModel { Id = uint.Parse(node.Attributes["Id"].Value), Name = node.Attributes["Name"].Value });
         }
 
         private bool isSolutionLoaded = true;
@@ -49,7 +50,7 @@ namespace VSChangeTargetFrameworkExtension
 
                 projectsUpdateList.UpdateFired += Update;
                 projectsUpdateList.ReloadFired += ReloadProjects;
-               
+
                 projectsUpdateList.Frameworks = frameworkModels;
 
                 projectsUpdateList.State = "Waiting all projects are loaded...";
@@ -60,14 +61,14 @@ namespace VSChangeTargetFrameworkExtension
                 }
                 else
                 {
-                    if(isSolutionLoaded)
+                    if (isSolutionLoaded)
                         ReloadProjects();
                 }
 
                 projectsUpdateList.StartPosition = FormStartPosition.CenterScreen;
                 projectsUpdateList.TopMost = true;
                 projectsUpdateList.ShowDialog();
-                
+
             }
         }
 
@@ -75,11 +76,11 @@ namespace VSChangeTargetFrameworkExtension
         {
             lock (syncRoot)
             {
-                if(projectsUpdateList!=null)
+                if (projectsUpdateList != null)
                     projectsUpdateList.State = "Waiting all projects are loaded...";
 
                 isSolutionLoaded = false;
-                
+
             }
         }
 
@@ -89,7 +90,7 @@ namespace VSChangeTargetFrameworkExtension
             {
                 isSolutionLoaded = true;
 
-                if(projectsUpdateList!=null && projectsUpdateList.Visible)
+                if (projectsUpdateList != null && projectsUpdateList.Visible)
                     ReloadProjects();
             }
         }
@@ -133,7 +134,7 @@ namespace VSChangeTargetFrameworkExtension
                     var projectItems = p.ProjectItems.OfType<ProjectItem>();
                     var subProjects = projectItems.Select(pi => pi.SubProject);
                     projectModels.AddRange(MapProjects(subProjects));
-                }                    
+                }
                 else
                 {
                     var projectModel = MapProject(p);
@@ -156,8 +157,8 @@ namespace VSChangeTargetFrameworkExtension
                 {
                     var frameworkModel = new FrameworkModel
                         {
-                            Id = (uint) p.Properties.Item("TargetFramework").Value,
-                            Name = (string) p.Properties.Item("TargetFrameworkMoniker").Value
+                            Id = (uint)p.Properties.Item("TargetFramework").Value,
+                            Name = (string)p.Properties.Item("TargetFrameworkMoniker").Value
                         };
                     projectModel.Framework = frameworkModel;
                 }
@@ -202,11 +203,11 @@ namespace VSChangeTargetFrameworkExtension
                                 {
                                     var pm = (ProjectModel)o;
                                     projectsUpdateList.State = string.Format("Updating... {0} done", pm.Name);
-                                },projectModel);
+                                }, projectModel);
                         }
                         catch (COMException e) //possible "project unavailable" for unknown reasons
                         {
-                            Debug.WriteLine("COMException on "+projectModel.Name+e);
+                            Debug.WriteLine("COMException on " + projectModel.Name + e);
                         }
                     }
                 });
