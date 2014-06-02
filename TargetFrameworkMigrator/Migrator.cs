@@ -15,7 +15,7 @@ using EnvDTE80;
 
 namespace VSChangeTargetFrameworkExtension
 {
-    public class Migrator
+    public class Migrator 
     {
         private readonly DTE applicationObject;
         private ProjectsUpdateList projectsUpdateList;
