@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Migrator.cs" />
+    <Compile Include="SortableBindingList.cs" />
     <Compile Include="TargetFrameworkMigratorPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
