@@ -1,5 +1,6 @@
 ﻿// Copyright (c) 2013 Pavel Samokha
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -26,10 +27,15 @@ namespace VSChangeTargetFrameworkExtension
         {
             set
             {
-                dataGridView1.DataSource = value;
+                var wrapperBindingList = new SortableBindingList<ProjectModel>(value);
+                dataGridView1.DataSource = wrapperBindingList;
                 dataGridView1.Refresh();
             }
-            get { return (List<ProjectModel>) dataGridView1.DataSource; }
+            get
+            {
+                var wrapperBindingList = (SortableBindingList<ProjectModel>)dataGridView1.DataSource;
+                return wrapperBindingList.WrappedList;
+            }
         }
 
         public FrameworkModel SelectedFramework
@@ -121,7 +127,7 @@ namespace VSChangeTargetFrameworkExtension
         }
     }
 
-    public class FrameworkModel
+    public class FrameworkModel : IComparable
     {
         public string Name { get; set; }
         public uint Id { get; set; }
@@ -129,6 +135,12 @@ namespace VSChangeTargetFrameworkExtension
         public override string ToString()
         {
             return string.Format("{0}", Name);
+        }
+
+        // support comparison so we can sort by properties of this type
+        public int CompareTo(object obj)
+        {
+            return StringComparer.Ordinal.Compare(this.Name, ((FrameworkModel)obj).Name);
         }
     }
 }
