@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frameworks>
+  <Framework Id="262661" Name=".NETFramework,Version=v4.5.2"/>
+  <Framework Id="262405" Name=".NETFramework,Version=v4.5.1"/>
+  <Framework Id="262149" Name=".NETFramework,Version=v4.5"/>
+  <Framework Id="262144" Name=".NETFramework,Version=v4.0"/>
+  <Framework Id="262144" Name=".NETFramework,Version=v4.0,Profile=Client"/>
+  <Framework Id="196613" Name=".NETFramework,Version=v3.5"/>
+  <Framework Id="196613" Name=".NETFramework,Version=v3.5,Profile=Client"/>
+  <Framework Id="196608" Name=".NETFramework,Version=v3.0"/>
+  <Framework Id="131072" Name=".NETFramework,Version=v2.0"/>
+</Frameworks>
