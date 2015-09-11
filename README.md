@@ -9,7 +9,22 @@ If you have solution with many projects and want to migrate to new version of .N
 
 Features:
 
-* Support .Net Frameworks 2.0-4.5.1
+* Support .Net Frameworks 2.0-4.6
 * Support solution folders 
 
 Available through Tools -> Target Framework Migrator
+
+
+Development
+===================
+
+Frameworks list
+-------------------
+
+Edit Frameworks.xml in main project to add new framework.
+Where to get Id for new framework? I get it via runtime (change one project's framework in visual studio project properties and get it's Id in debug mode).
+
+How to debug visual studio extension
+------------------------------------
+
+Set "Run external program" in Debug to Visual Studio devenv.exe (e.g. C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe) and command line arguments to "/rootsuffix Exp"
