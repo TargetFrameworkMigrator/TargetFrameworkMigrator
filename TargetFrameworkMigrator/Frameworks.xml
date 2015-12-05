@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Frameworks>
+  <Framework Id="262406" Name=".NETFramework,Version=v4.6.1"/>
   <Framework Id="262150" Name=".NETFramework,Version=v4.6"/>
   <Framework Id="262661" Name=".NETFramework,Version=v4.5.2"/>
   <Framework Id="262405" Name=".NETFramework,Version=v4.5.1"/>
