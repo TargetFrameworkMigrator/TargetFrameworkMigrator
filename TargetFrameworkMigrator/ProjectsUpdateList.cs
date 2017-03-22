@@ -35,12 +35,34 @@ namespace VSChangeTargetFrameworkExtension
       set
       {
         var wrapperBindingList = new SortableBindingList<ProjectModel>(value);
-        dataGridView1.DataSource = wrapperBindingList;
-        dataGridView1.Refresh();
+        try
+        {
+          dataGridView1.DataSource = wrapperBindingList;
+          dataGridView1.Refresh();
+        }
+        catch (InvalidOperationException)
+        {
+          Invoke(new EventHandler(delegate
+          {
+            dataGridView1.DataSource = wrapperBindingList;
+            dataGridView1.Refresh();
+          }));
+        }
       }
       get
       {
-        var wrapperBindingList = (SortableBindingList<ProjectModel>)dataGridView1.DataSource;
+        SortableBindingList<ProjectModel> wrapperBindingList = null;
+        try
+        {
+          wrapperBindingList = (SortableBindingList<ProjectModel>)dataGridView1.DataSource;
+        }
+        catch (InvalidOperationException)
+        {
+          Invoke(new EventHandler(delegate
+          {
+            wrapperBindingList = (SortableBindingList<ProjectModel>)dataGridView1.DataSource;
+          }));
+        }
         return wrapperBindingList.WrappedList;
       }
     }
@@ -49,7 +71,12 @@ namespace VSChangeTargetFrameworkExtension
     {
       get
       {
-        return (FrameworkModel)comboBox1.SelectedItem;
+        FrameworkModel model = null;
+        Invoke(new EventHandler(delegate
+        {
+          model = (FrameworkModel)comboBox1.SelectedItem;
+        }));
+        return model;
       }
     }
 
@@ -57,7 +84,17 @@ namespace VSChangeTargetFrameworkExtension
     {
       set
       {
-        label1.Text = value;
+        try
+        {
+          label1.Text = value;
+        }
+        catch (InvalidOperationException)
+        {
+          Invoke(new EventHandler(delegate
+          {
+            label1.Text = value;
+          }));
+        }
       }
     }
 
