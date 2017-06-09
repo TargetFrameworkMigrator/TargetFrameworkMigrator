@@ -151,25 +151,28 @@ namespace VSChangeTargetFrameworkExtension
                     Name = p.Name,
                     DteProject = p,
                 };
-            if (p.Properties != null)
+            if (p.Properties == null) return projectModel;
+
+            // not applicable for current project
+            if (p.Properties.Item("TargetFramework") == null ||
+                p.Properties.Item("TargetFrameworkMoniker") == null) return projectModel;
+
+            try
             {
-                try
+                var frameworkModel = new FrameworkModel
                 {
-                    var frameworkModel = new FrameworkModel
-                        {
-                            Id = (uint)p.Properties.Item("TargetFramework").Value,
-                            Name = (string)p.Properties.Item("TargetFrameworkMoniker").Value
-                        };
-                    projectModel.Framework = frameworkModel;
-                }
-                catch (ArgumentException e) //possible when project still loading
-                {
-                    Debug.WriteLine("ArgumentException on " + projectModel + e);
-                }
-                catch (InvalidCastException e) //for some projects with wrong types
-                {
-                    Debug.WriteLine("InvalidCastException on " + projectModel + e);
-                }
+                    Id = (uint)p.Properties.Item("TargetFramework").Value,
+                    Name = (string)p.Properties.Item("TargetFrameworkMoniker").Value
+                };
+                projectModel.Framework = frameworkModel;
+            }
+            catch (ArgumentException e) //possible when project still loading
+            {
+                Debug.WriteLine("ArgumentException on " + projectModel + e);
+            }
+            catch (InvalidCastException e) //for some projects with wrong types
+            {
+                Debug.WriteLine("InvalidCastException on " + projectModel + e);
             }
             return projectModel;
         }
