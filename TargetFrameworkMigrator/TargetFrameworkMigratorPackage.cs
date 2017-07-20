@@ -65,33 +65,36 @@ namespace VHQLabs.TargetFrameworkMigrator
         {
             Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
-
+            
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
             {
                 DTE dte = (DTE)GetService(typeof(DTE));
 
-                migrator = new Migrator(dte);
-                var serviceProvider = new ServiceProvider((IServiceProvider)dte);
-                solutionLoadEvents = new SolutionLoadEvents(serviceProvider);
-                synchronizationContext = SynchronizationContext.Current;
-
-                solutionLoadEvents.BeforeSolutionLoaded += () =>
+                if (dte != null)
                 {
-                    synchronizationContext.Post(_ => migrator.OnBeforeSolutionLoaded(), null);
-                };
-                
-                solutionLoadEvents.AfterSolutionLoaded += () =>
-                {
-                    synchronizationContext.Post(_ => migrator.OnAfterSolutionLoaded(), null);
-                };
+                    migrator = new Migrator(dte);
 
+                    var serviceProvider = new ServiceProvider((IServiceProvider)dte);
+                    solutionLoadEvents = new SolutionLoadEvents(serviceProvider);
+                    synchronizationContext = SynchronizationContext.Current;
+
+                    solutionLoadEvents.BeforeSolutionLoaded += () =>
+                    {
+                        synchronizationContext.Post(_ => migrator.OnBeforeSolutionLoaded(), null);
+                    };
+
+                    solutionLoadEvents.AfterSolutionLoaded += () =>
+                    {
+                        synchronizationContext.Post(_ => migrator.OnAfterSolutionLoaded(), null);
+                    };
+                }
 
                 // Create the command for the menu item.
                 CommandID menuCommandID = new CommandID(GuidList.guidTargetFrameworkMigratorCmdSet, (int)PkgCmdIDList.cmdidTargetFrameworkMigrator);
-                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID );
-                mcs.AddCommand( menuItem );
+                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
+                mcs.AddCommand(menuItem);
             }
         }
         #endregion
@@ -109,7 +112,10 @@ namespace VHQLabs.TargetFrameworkMigrator
         {
             DTE dte = (DTE)GetService(typeof(DTE));
 
-            migrator.Show();
+            if (migrator != null)
+            {
+                migrator.Show();
+            }
         }
 
     }

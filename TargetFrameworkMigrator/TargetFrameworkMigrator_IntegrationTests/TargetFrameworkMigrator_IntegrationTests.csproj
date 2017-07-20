@@ -80,7 +80,7 @@
     <!---->
     <!---->
     <Compile Include="PackageTest.cs" />
-    <Compile Include="IntegrationTest Library\DialogboxPurger.cs" />
+    <Compile Include="IntegrationTest Library\WindowPurger.cs" />
     <Compile Include="IntegrationTest Library\NativeMethods.cs" />
     <Compile Include="IntegrationTest Library\Utils.cs" />
     <Compile Include="SignOff-Tests\CPPProjectTests.cs" />

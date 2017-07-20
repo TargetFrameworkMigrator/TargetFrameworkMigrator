@@ -12,7 +12,7 @@ namespace Microsoft.VsSDK.IntegrationTestLibrary
     /// <summary>
     /// This class is responsible to close dialog boxes that pop up during different VS Calls
     /// </summary>
-    internal class DialogBoxPurger : IDisposable
+    internal class WindowPurger : IDisposable
     {
         /// <summary>
         /// The default number of milliseconds to wait for the threads to signal to terminate.
@@ -75,12 +75,12 @@ namespace Microsoft.VsSDK.IntegrationTestLibrary
         /// </summary>
         /// <param name="buttonAction">The botton to "press" on the dialog box.</param>
         /// <param name="numberOfDialogsToWaitFor">The number of dialog boxes with the same message to wait for. This is the situation when the same action pops up two of the same dialog boxes</param>
-        /// <param name="expectedDialogMesssage">The expected dialog box message to check for.</param>
-        internal DialogBoxPurger(int buttonAction, int numberOfDialogsToWaitFor, string expectedDialogMesssage)
+        /// <param name="expectedWindowTitle">The expected window title to find.</param>
+        internal WindowPurger(int buttonAction, int numberOfDialogsToWaitFor, string expectedWindowTitle)
         {
             this.buttonAction = buttonAction;
             this.numberOfDialogsToWaitFor = numberOfDialogsToWaitFor;
-            this.expectedDialogBoxText = expectedDialogMesssage;
+            this.expectedDialogBoxText = expectedWindowTitle;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Microsoft.VsSDK.IntegrationTestLibrary
         /// </summary>
         /// <param name="buttonAction">The botton to "press" on the dialog box.</param>
         /// <param name="numberOfDialogsToWaitFor">The number of dialog boxes with the same message to wait for. This is the situation when the same action pops up two of the same dialog boxes</param>
-        internal DialogBoxPurger(int buttonAction, int numberOfDialogsToWaitFor)
+        internal WindowPurger(int buttonAction, int numberOfDialogsToWaitFor)
         {
             this.buttonAction = buttonAction;
             this.numberOfDialogsToWaitFor = numberOfDialogsToWaitFor;
@@ -98,18 +98,18 @@ namespace Microsoft.VsSDK.IntegrationTestLibrary
         /// Overloaded ctor.
         /// </summary>
         /// <param name="buttonAction">The botton to "press" on the dialog box.</param>
-        /// <param name="expectedDialogMesssage">The expected dialog box message to check for.</param>
-        internal DialogBoxPurger(int buttonAction, string expectedDialogMesssage)
+        /// <param name="expectedDialogMesssage">The expected window title to check for.</param>
+        internal WindowPurger(int buttonAction, string expectedWindowTitle)
         {
             this.buttonAction = buttonAction;
-            this.expectedDialogBoxText = expectedDialogMesssage;
+            this.expectedDialogBoxText = expectedWindowTitle;
         }
 
         /// <summary>
         /// Overloaded ctor.
         /// </summary>
         /// <param name="buttonAction">The botton to "press" on the dialog box.</param>
-        internal DialogBoxPurger(int buttonAction)
+        internal WindowPurger(int buttonAction)
         {
             this.buttonAction = buttonAction;
         }
@@ -224,51 +224,23 @@ namespace Microsoft.VsSDK.IntegrationTestLibrary
 
                         // We protect the shell too from reentrency.
                         this.uiShell.GetDialogOwnerHwnd(out hwnds[hwndIndex]);
-
                     }
 
                     if (hwnds[hwndIndex] != IntPtr.Zero)
                     {
-                        StringBuilder windowClassName = new StringBuilder(256);
-                        NativeMethods.GetClassName(hwnds[hwndIndex], windowClassName, windowClassName.Capacity);
+                        StringBuilder windowText = new StringBuilder(256);
+                        NativeMethods.GetWindowText(hwnds[hwndIndex], windowText, windowText.Capacity);
 
-                        // The #32770 is the class name of a messagebox dialog.
-                        if (windowClassName.ToString().Contains("#32770"))
+                        if (windowText.ToString().Equals(this.expectedDialogBoxText))
                         {
-                            IntPtr unmanagedMemoryLocation = IntPtr.Zero;
-                            string dialogBoxText = String.Empty;
-                            try
-                            {
-                                unmanagedMemoryLocation = Marshal.AllocHGlobal(10 * 1024);
-                                NativeMethods.EnumChildWindows(hwnds[hwndIndex], new NativeMethods.CallBack(FindMessageBoxString), unmanagedMemoryLocation);
-                                dialogBoxText = Marshal.PtrToStringUni(unmanagedMemoryLocation);
-                            }
-                            finally
-                            {
-                                if (unmanagedMemoryLocation != IntPtr.Zero)
-                                {
-                                    Marshal.FreeHGlobal(unmanagedMemoryLocation);
-                                }
-                            }
-
                             lock (Mutex)
                             {
+                                var result = NativeMethods.SendMessage(hwnds[hwndIndex], NativeMethods.WM_CLOSE, 0, IntPtr.Zero);
 
-                                // Since this is running on the main thread be sure that we close the dialog.
-                                bool dialogCloseResult = false;
-                                if (this.buttonAction != 0)
+                                dialogBoxCloseResults[hwndIndex] = (result == 0);
+                                if (dialogBoxesToWaitFor++ >= this.numberOfDialogsToWaitFor)
                                 {
-                                    dialogCloseResult = NativeMethods.EndDialog(hwnds[hwndIndex], this.buttonAction);
-                                }
-
-                                // Check if we have found the right dialog box.
-                                if (String.IsNullOrEmpty(this.expectedDialogBoxText) || (!String.IsNullOrEmpty(dialogBoxText) && String.Compare(this.expectedDialogBoxText, dialogBoxText.Trim(), StringComparison.OrdinalIgnoreCase) == 0))
-                                {
-                                    dialogBoxCloseResults[hwndIndex] = dialogCloseResult;
-                                    if (dialogBoxesToWaitFor++ >= this.numberOfDialogsToWaitFor)
-                                    {
-                                        stayInLoop = false;
-                                    }
+                                    stayInLoop = false;
                                 }
                             }
                         }
@@ -279,7 +251,7 @@ namespace Microsoft.VsSDK.IntegrationTestLibrary
             {
                 //Let the main thread run a possible close command.
                 System.Threading.Thread.Sleep(2000);
-
+                
                 foreach (IntPtr hwnd in hwnds)
                 {
                     // At this point the dialog should be closed, if not attempt to close it.
@@ -306,52 +278,6 @@ namespace Microsoft.VsSDK.IntegrationTestLibrary
                     this.threadDone.Set();
                 }
             }
-        }
-
-        /// <summary>
-        /// Finds a messagebox string on a messagebox.
-        /// </summary>
-        /// <param name="hwnd">The windows handle of the dialog</param>
-        /// <param name="unmanagedMemoryLocation">A pointer to the memorylocation the string will be written to</param>
-        /// <returns>True if found.</returns>
-        private static bool FindMessageBoxString(IntPtr hwnd, IntPtr unmanagedMemoryLocation)
-        {
-            StringBuilder sb = new StringBuilder(512);
-            NativeMethods.GetClassName(hwnd, sb, sb.Capacity);
-
-            if (sb.ToString().ToLower().Contains("static"))
-            {
-                StringBuilder windowText = new StringBuilder(2048);
-                NativeMethods.GetWindowText(hwnd, windowText, windowText.Capacity);
-
-                if (windowText.Length > 0)
-                {
-                    IntPtr stringAsPtr = IntPtr.Zero;
-                    try
-                    {
-                        stringAsPtr = Marshal.StringToHGlobalAnsi(windowText.ToString());
-                        char[] stringAsArray = windowText.ToString().ToCharArray();
-
-                        // Since unicode characters are copied check if we are out of the allocated length.
-                        // If not add the end terminating zero.
-                        if ((2 * stringAsArray.Length) + 1 < 2048)
-                        {
-                            Marshal.Copy(stringAsArray, 0, unmanagedMemoryLocation, stringAsArray.Length);
-                            Marshal.WriteInt32(unmanagedMemoryLocation, 2 * stringAsArray.Length, 0);
-                        }
-                    }
-                    finally
-                    {
-                        if (stringAsPtr != IntPtr.Zero)
-                        {
-                            Marshal.FreeHGlobal(stringAsPtr);
-                        }
-                    }
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         #endregion
