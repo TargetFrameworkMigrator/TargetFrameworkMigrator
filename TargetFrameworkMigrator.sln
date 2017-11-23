@@ -4,6 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{83F41A10-B8A1-4B99-9729-A65C595ECE81}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{83F41A10-B8A1-4B99-9729-A65C595ECE81}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		IntegrationTests.testsettings = IntegrationTests.testsettings
+		UnitTests.testsettings = UnitTests.testsettings
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigratorVSIX", "Src\TargetFrameworkMigratorVSIX\TargetFrameworkMigratorVSIX.csproj", "{8B249EC9-DA90-46DA-B5AB-F2E523206109}"
 EndProject
@@ -75,5 +84,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {328E24A1-CD5B-4AF3-9E4D-192FBA5943C2}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6CCA7700-9846-4315-9100-1F20AFC39627}
+	EndGlobalSection
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = 708b48b1-5838-467e-a476-eb7565b743d5
 	EndGlobalSection
 EndGlobal
