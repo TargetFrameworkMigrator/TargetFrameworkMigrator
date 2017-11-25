@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2013 Pavel Samokha
+// Copyright (c) 2013 Pavel Samokha
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VHQLabs.TargetFrameworkMigrator;
 
-namespace VSChangeTargetFrameworkExtension
+namespace VHQLabs.TargetFrameworkMigrator
 {
   public partial class ProjectsUpdateList : Form
   {

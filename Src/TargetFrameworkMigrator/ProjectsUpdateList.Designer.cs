@@ -1,4 +1,4 @@
-﻿namespace VSChangeTargetFrameworkExtension
+namespace VHQLabs.TargetFrameworkMigrator
 {
   partial class ProjectsUpdateList
   {
