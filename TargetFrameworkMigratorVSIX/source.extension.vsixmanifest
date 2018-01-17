@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="TargetFrameworkMigrator..4f7666b9-e62c-46a1-af25-21ab8742ef00" Version="1.6.5" Language="en-US" Publisher="VHQLabs" />
+    <Identity Id="TargetFrameworkMigrator..4f7666b9-e62c-46a1-af25-21ab8742ef00" Version="1.6.6" Language="en-US" Publisher="VHQLabs" />
     <DisplayName>Target Framework Migrator</DisplayName>
     <Description xml:space="preserve">Change all your .Net projects Target Framework at once</Description>
     <Icon>1359311863_stock_update-fields.png</Icon>
