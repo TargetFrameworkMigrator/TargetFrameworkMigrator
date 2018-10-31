@@ -1,20 +1,16 @@
 ﻿// Copyright (c) 2013 Pavel Samokha
 using System;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
 using System.Threading;
-using System.Windows.Forms;
 using EnvDTE;
-using Microsoft.Win32;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using VSChangeTargetFrameworkExtension;
 using IServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
-using Thread = System.Threading.Thread;
 
 namespace VHQLabs.TargetFrameworkMigrator
 {
@@ -63,12 +59,12 @@ namespace VHQLabs.TargetFrameworkMigrator
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if ( null != mcs )
+            if (null != mcs)
             {
                 DTE dte = (DTE)GetService(typeof(DTE));
 
@@ -81,7 +77,7 @@ namespace VHQLabs.TargetFrameworkMigrator
                 {
                     synchronizationContext.Post(_ => migrator.OnBeforeSolutionLoaded(), null);
                 };
-                
+
                 solutionLoadEvents.AfterSolutionLoaded += () =>
                 {
                     synchronizationContext.Post(_ => migrator.OnAfterSolutionLoaded(), null);
@@ -90,8 +86,8 @@ namespace VHQLabs.TargetFrameworkMigrator
 
                 // Create the command for the menu item.
                 CommandID menuCommandID = new CommandID(GuidList.guidTargetFrameworkMigratorCmdSet, (int)PkgCmdIDList.cmdidTargetFrameworkMigrator);
-                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID );
-                mcs.AddCommand( menuItem );
+                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
+                mcs.AddCommand(menuItem);
             }
         }
         #endregion
@@ -114,7 +110,7 @@ namespace VHQLabs.TargetFrameworkMigrator
 
     }
 
-    public class SolutionLoadEvents:IVsSolutionLoadEvents, IVsSolutionEvents, IDisposable
+    public class SolutionLoadEvents : IVsSolutionLoadEvents, IVsSolutionEvents, IDisposable
     {
         private IVsSolution solution;
         private uint solutionEventsCookie;
@@ -166,7 +162,7 @@ namespace VHQLabs.TargetFrameworkMigrator
         public int OnAfterBackgroundSolutionLoadComplete()
         {
             var @event = AfterSolutionLoaded;
-            if(@event != null)
+            if (@event != null)
                 @event.Invoke();
 
             return VSConstants.S_OK;

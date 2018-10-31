@@ -34,7 +34,7 @@
     group; your package should define its own command set in order to avoid collisions  
     with command ids defined by other packages. -->
 
-    
+
     <!-- In this section you can define new menu groups. A menu group is a container for 
          other menus or buttons (commands); from a visual point of view you can see the 
          group as the part of a menu contained between two lines. The parent of a group 
@@ -44,11 +44,11 @@
       <Group guid="guidTargetFrameworkMigratorCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
-      
+
 
 
     </Groups>
-    
+
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button 
         or combo box in a toolbar. -->
@@ -72,7 +72,7 @@
 
 
     </Buttons>
-   
+
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
     <Bitmaps>
       <!--  The bitmap id is defined in a way that is a little bit different from the others: 
@@ -81,9 +81,9 @@
             inside a button definition. An important aspect of this declaration is that the element id 
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
-      
+
     </Bitmaps>
- 
+
   </Commands>
 
 
@@ -93,16 +93,16 @@
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidTargetFrameworkMigratorPkg" value="{4c5b2b2f-17b1-4b85-aceb-f5e8865dc05a}" />
-    
+
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidTargetFrameworkMigratorCmdSet" value="{bbba49fb-2ebd-4110-a269-fc45a929fab9}">
 
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidTargetFrameworkMigrator" value="0x0100" />
     </GuidSymbol>
-    
-    
-    
+
+
+
     <GuidSymbol name="guidImages" value="{1e04a315-62f1-4d71-801d-990506d7a61a}" >
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
