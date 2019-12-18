@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2013 Pavel Samokha
+// Copyright (c) 2013 Pavel Samokha
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,29 +12,35 @@ using System.Windows.Forms;
 using System.Xml;
 using EnvDTE;
 using EnvDTE80;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace VSChangeTargetFrameworkExtension
 {
   public class Migrator
   {
     private readonly DTE applicationObject;
+    private readonly IVsFrameworkMultiTargeting frameworkMultiTargeting;
     private ProjectsUpdateList projectsUpdateList;
     private List<FrameworkModel> frameworkModels;
 
     private object syncRoot = new object();
 
-    public Migrator(DTE applicationObject)
+    public Migrator(DTE applicationObject, IVsFrameworkMultiTargeting frameworkMultiTargeting)
     {
       this.applicationObject = applicationObject;
+      this.frameworkMultiTargeting = frameworkMultiTargeting;
 
-      frameworkModels = new List<FrameworkModel>();
+      frameworkMultiTargeting.GetSupportedFrameworks(out Array prgSupportedFrameworks);
 
-      var folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+      frameworkModels = prgSupportedFrameworks.Cast<string>()
+                                              .Select(GetFrameworkModel)
+                                              .ToList();
+    }
 
-      var frameworks = new XmlDocument();
-      frameworks.Load(Path.Combine(folderPath, "Frameworks.xml"));
-      foreach (XmlNode node in frameworks.DocumentElement.ChildNodes)
-        frameworkModels.Add(new FrameworkModel { Id = uint.Parse(node.Attributes["Id"].Value), Name = node.Attributes["Name"].Value });
+    private FrameworkModel GetFrameworkModel(string moniker)
+    {
+      frameworkMultiTargeting.GetDisplayNameForTargetFx(moniker, out string displayName);
+      return new FrameworkModel { DisplayName = displayName, Moniker = moniker };
     }
 
     private bool isSolutionLoaded = true;
@@ -68,7 +74,6 @@ namespace VSChangeTargetFrameworkExtension
         projectsUpdateList.StartPosition = FormStartPosition.CenterScreen;
         projectsUpdateList.TopMost = true;
         projectsUpdateList.ShowDialog();
-
       }
     }
 
@@ -80,7 +85,6 @@ namespace VSChangeTargetFrameworkExtension
           projectsUpdateList.State = "Waiting all projects are loaded...";
 
         isSolutionLoaded = false;
-
       }
     }
 
@@ -90,7 +94,7 @@ namespace VSChangeTargetFrameworkExtension
       {
         isSolutionLoaded = true;
 
-        if (projectsUpdateList != null && projectsUpdateList.Visible)
+        if (projectsUpdateList?.Visible == true)
           ReloadProjects();
       }
     }
@@ -115,9 +119,8 @@ namespace VSChangeTargetFrameworkExtension
 
       var projectModels = MapProjects(projects.OfType<Project>());
 
-      projectModels = projectModels
-                                  .Where(pm => pm.HasFramework)
-                                  .ToList();
+      projectModels = projectModels.Where(pm => pm.HasFramework)
+                                   .ToList();
       return projectModels;
     }
 
@@ -144,37 +147,37 @@ namespace VSChangeTargetFrameworkExtension
       return projectModels;
     }
 
-    private static ProjectModel MapProject(Project p)
+    private ProjectModel MapProject(Project p)
     {
-        var projectModel = new ProjectModel
-            {
-                Name = p.Name,
-                DteProject = p,
-            };
-        if (p.Properties == null) return projectModel;
+      var projectModel = new ProjectModel
+      {
+        Name = p.Name,
+        DteProject = p,
+      };
+      if (p.Properties == null) return projectModel;
 
-        // not applicable for current project
-        if (p.Properties.Item("TargetFramework") == null ||
-            p.Properties.Item("TargetFrameworkMoniker") == null) return projectModel;
+      // not applicable for current project
+      var targetFrameworkMoniker = p.Properties
+        .Cast<EnvDTE.Property>()
+        .FirstOrDefault(prop => string.Compare(prop.Name, "TargetFrameworkMoniker") == 0);
 
-        try
-        {
-            var frameworkModel = new FrameworkModel
-            {
-                Id = (uint)p.Properties.Item("TargetFramework").Value,
-                Name = (string)p.Properties.Item("TargetFrameworkMoniker").Value
-            };
-            projectModel.Framework = frameworkModel;
-        }
-        catch (ArgumentException e) //possible when project still loading
-        {
-            Debug.WriteLine("ArgumentException on " + projectModel + e);
-        }
-        catch (InvalidCastException e) //for some projects with wrong types
-        {
-            Debug.WriteLine("InvalidCastException on " + projectModel + e);
-        }
+      if (targetFrameworkMoniker?.Value == null)
         return projectModel;
+
+      try
+      {
+        var frameworkModel = GetFrameworkModel((string)targetFrameworkMoniker.Value);
+        projectModel.Framework = frameworkModel;
+      }
+      catch (ArgumentException e) //possible when project still loading
+      {
+        Debug.WriteLine("ArgumentException on " + projectModel + e);
+      }
+      catch (InvalidCastException e) //for some projects with wrong types
+      {
+        Debug.WriteLine("InvalidCastException on " + projectModel + e);
+      }
+      return projectModel;
     }
 
     async void Update()
@@ -200,7 +203,7 @@ namespace VSChangeTargetFrameworkExtension
             {
               try
               {
-                projectModel.DteProject.Properties.Item("TargetFrameworkMoniker").Value = frameworkModel.Name;
+                projectModel.DteProject.Properties.Item("TargetFrameworkMoniker").Value = frameworkModel.Moniker;
 
                 synchronizationContext.Post(o =>
                           {

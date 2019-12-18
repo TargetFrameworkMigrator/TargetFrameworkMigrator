@@ -75,12 +75,12 @@
   <ItemGroup>
     <!--<Compile Include="Properties\AssemblyInfo.cs" />-->
     <!---->
+    <Compile Include="IntegrationTest Library\DialogboxPurger.cs" />
     <Compile Include="MenuItemTest.cs" />
     <!---->
     <!---->
     <!---->
     <Compile Include="PackageTest.cs" />
-    <Compile Include="IntegrationTest Library\DialogboxPurger.cs" />
     <Compile Include="IntegrationTest Library\NativeMethods.cs" />
     <Compile Include="IntegrationTest Library\Utils.cs" />
     <Compile Include="SignOff-Tests\CPPProjectTests.cs" />

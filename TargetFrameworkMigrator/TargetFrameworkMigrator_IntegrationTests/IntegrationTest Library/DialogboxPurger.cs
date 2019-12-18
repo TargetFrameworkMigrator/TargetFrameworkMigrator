@@ -1,4 +1,4 @@
-﻿
+
 namespace Microsoft.VsSDK.IntegrationTestLibrary
 {
     using System;
