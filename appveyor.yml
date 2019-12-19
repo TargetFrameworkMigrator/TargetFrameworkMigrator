@@ -1,0 +1,15 @@
+version: 1.0.{build}
+skip_tags: true
+skip_branch_with_pr: true
+image: Visual Studio 2017
+configuration: Release
+build:
+  project: TargetFrameworkMigrator.sln
+  parallel: true
+  verbosity: minimal
+test:
+  assemblies:
+    only:
+    - '**/TargetFrameworkMigrator_UnitTests.dll'
+artifacts:
+- path: Src\TargetFrameworkMigratorVSIX\**\*.vsix
