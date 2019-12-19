@@ -72,20 +72,19 @@ namespace VHQLabs.TargetFrameworkMigrator
             {
                 DTE dte = (DTE)GetService(typeof(DTE));
 
-                migrator = new Migrator(dte);
-                var serviceProvider = new ServiceProvider((IServiceProvider)dte);
-                solutionLoadEvents = new SolutionLoadEvents(serviceProvider);
-                synchronizationContext = SynchronizationContext.Current;
+                if (dte != null)
+                {
+                    migrator = new Migrator(dte);
+                    var serviceProvider = new ServiceProvider((IServiceProvider) dte);
+                    solutionLoadEvents = new SolutionLoadEvents(serviceProvider);
 
-                solutionLoadEvents.BeforeSolutionLoaded += () =>
-                {
-                    synchronizationContext.Post(_ => migrator.OnBeforeSolutionLoaded(), null);
-                };
-                
-                solutionLoadEvents.AfterSolutionLoaded += () =>
-                {
-                    synchronizationContext.Post(_ => migrator.OnAfterSolutionLoaded(), null);
-                };
+
+                    
+                    solutionLoadEvents.BeforeSolutionLoaded += () => { synchronizationContext.Post(_ => migrator.OnBeforeSolutionLoaded(), null); };
+
+                    solutionLoadEvents.AfterSolutionLoaded += () => { synchronizationContext.Post(_ => migrator.OnAfterSolutionLoaded(), null); };
+                }
+                synchronizationContext = SynchronizationContext.Current;
 
 
                 // Create the command for the menu item.
@@ -109,7 +108,7 @@ namespace VHQLabs.TargetFrameworkMigrator
         {
             DTE dte = (DTE)GetService(typeof(DTE));
 
-            migrator.Show();
+            migrator?.Show();
         }
 
     }
