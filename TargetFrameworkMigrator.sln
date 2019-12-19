@@ -1,21 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{83F41A10-B8A1-4B99-9729-A65C595ECE81}"
-	ProjectSection(SolutionItems) = preProject
-		IntegrationTests.testsettings = IntegrationTests.testsettings
-		UnitTests.testsettings = UnitTests.testsettings
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigratorVSIX", "TargetFrameworkMigratorVSIX\TargetFrameworkMigratorVSIX.csproj", "{8B249EC9-DA90-46DA-B5AB-F2E523206109}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigratorVSIX", "Src\TargetFrameworkMigratorVSIX\TargetFrameworkMigratorVSIX.csproj", "{8B249EC9-DA90-46DA-B5AB-F2E523206109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator", "TargetFrameworkMigrator\TargetFrameworkMigrator.csproj", "{39CEC1D1-AFFA-4E29-9F6D-F5E976207274}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator", "Src\TargetFrameworkMigrator\TargetFrameworkMigrator.csproj", "{39CEC1D1-AFFA-4E29-9F6D-F5E976207274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator_IntegrationTests", "TargetFrameworkMigrator\TargetFrameworkMigrator_IntegrationTests\TargetFrameworkMigrator_IntegrationTests.csproj", "{01FA1704-36DE-4C83-AACD-23A51281E0FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator_IntegrationTests", "Tests\TargetFrameworkMigrator_IntegrationTests\TargetFrameworkMigrator_IntegrationTests.csproj", "{01FA1704-36DE-4C83-AACD-23A51281E0FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator_UnitTests", "TargetFrameworkMigrator\TargetFrameworkMigrator_UnitTests\TargetFrameworkMigrator_UnitTests.csproj", "{79F8DBB8-E7C4-4899-A3BA-753BDB952BB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator_UnitTests", "Tests\TargetFrameworkMigrator_UnitTests\TargetFrameworkMigrator_UnitTests.csproj", "{79F8DBB8-E7C4-4899-A3BA-753BDB952BB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AC6673EA-5CD9-4461-856B-ECB322831AA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,5 +68,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{01FA1704-36DE-4C83-AACD-23A51281E0FD} = {AC6673EA-5CD9-4461-856B-ECB322831AA0}
+		{79F8DBB8-E7C4-4899-A3BA-753BDB952BB5} = {AC6673EA-5CD9-4461-856B-ECB322831AA0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {328E24A1-CD5B-4AF3-9E4D-192FBA5943C2}
 	EndGlobalSection
 EndGlobal
