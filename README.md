@@ -3,6 +3,9 @@ TargetFrameworkMigrator
 
 [![Visual Studio Marketplace Version](https://vsmarketplacebadge.apphb.com/version/PavelSamokha.TargetFrameworkMigrator.svg)](https://marketplace.visualstudio.com/items?itemName=PavelSamokha.TargetFrameworkMigrator)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/asrqt7urcujs06lp/branch/master?svg=true)](https://ci.appveyor.com/project/304NotModified/targetframeworkmigrator/branch/master)
+
+
 Visual Studio Bulk Change Target Framework Extension
 
 Migrate all your .Net projects to another .Net Framework Version at once.
