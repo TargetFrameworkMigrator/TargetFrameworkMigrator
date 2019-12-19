@@ -30,6 +30,7 @@ namespace TargetFrameworkMigrator_UnitTests.MenuItemTests
         /// This action takes place In the Initialize method of the Package object
         /// </summary>
         [TestMethod]
+
         public void InitializeMenuCommand()
         {
             // Create the package
@@ -38,7 +39,7 @@ namespace TargetFrameworkMigrator_UnitTests.MenuItemTests
 
             // Create a basic service provider
             OleServiceProvider serviceProvider = OleServiceProvider.CreateOleServiceProviderWithBasicServices();
-
+            
             // Site the package
             Assert.AreEqual(0, package.SetSite(serviceProvider), "SetSite did not return S_OK");
 
@@ -59,8 +60,8 @@ namespace TargetFrameworkMigrator_UnitTests.MenuItemTests
 
             // Create a basic service provider
             OleServiceProvider serviceProvider = OleServiceProvider.CreateOleServiceProviderWithBasicServices();
-
-            // Create a UIShell service mock and proffer the service so that it can called from the MenuItemCallback method
+            
+                        // Create a UIShell service mock and proffer the service so that it can called from the MenuItemCallback method
             BaseMock uishellMock = UIShellServiceMock.GetUiShellInstance();
             serviceProvider.AddService(typeof(SVsUIShell), uishellMock, true);
 
@@ -74,7 +75,6 @@ namespace TargetFrameworkMigrator_UnitTests.MenuItemTests
 
             //Clean up services
             serviceProvider.RemoveService(typeof(SVsUIShell));
-
         }
     }
 }

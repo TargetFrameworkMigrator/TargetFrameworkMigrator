@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VsSDK.IntegrationTestLibrary;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
+using System.Diagnostics;
 
 namespace TargetFrameworkMigrator_IntegrationTests
 {
@@ -45,8 +46,8 @@ namespace TargetFrameworkMigrator_IntegrationTests
                 CommandID menuItemCmd = new CommandID(VHQLabs.TargetFrameworkMigrator.GuidList.guidTargetFrameworkMigratorCmdSet, (int)VHQLabs.TargetFrameworkMigrator.PkgCmdIDList.cmdidTargetFrameworkMigrator);
 
                 // Create the DialogBoxListener Thread.
-                string expectedDialogBoxText = string.Format(CultureInfo.CurrentCulture, "{0}\n\nInside {1}.MenuItemCallback()", "TargetFrameworkMigrator", "VHQLabs.TargetFrameworkMigrator.TargetFrameworkMigratorPackage");
-                DialogBoxPurger purger = new DialogBoxPurger(NativeMethods.IDOK, expectedDialogBoxText);
+                string expectedDialogBoxText = string.Format(CultureInfo.CurrentCulture, "Target Framework Migrator");
+                WindowPurger purger = new WindowPurger(NativeMethods.IDOK, expectedDialogBoxText);
 
                 try
                 {
@@ -57,7 +58,7 @@ namespace TargetFrameworkMigrator_IntegrationTests
                 }
                 finally
                 {
-                    Assert.IsTrue(purger.WaitForDialogThreadToTerminate(), "The dialog box has not shown");
+                    Assert.IsTrue(purger.WaitForDialogThreadToTerminate(), "The window was not shown");
                 }
             });
         }
