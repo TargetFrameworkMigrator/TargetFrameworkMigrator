@@ -10,6 +10,9 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
     <TargetFrameworkProfile />
+    <StartAction>Program</StartAction>
+    <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Exp</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
