@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{79F8DBB8-E7C4-4899-A3BA-753BDB952BB5}</ProjectGuid>
+    <ProjectGuid>{01FA1704-36DE-4C83-AACD-23A51281E0FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TargetFrameworkMigrator_UnitTests</RootNamespace>
-    <AssemblyName>TargetFrameworkMigrator_UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>TargetFrameworkMigrator_IntegrationTests</RootNamespace>
+    <AssemblyName>TargetFrameworkMigrator_IntegrationTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -17,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath Condition="'$(OutputPath)'==''">bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath Condition="'$(OutputPath)'==''">bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,44 +56,53 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="envdte" />
+    <Reference Include="envdte80" />
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
-    <Reference Include="Microsoft.VisualStudio.Shell.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Microsoft.VisualStudio.Shell.11.0.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0" />
-    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
-    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
-    <!---->
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0">
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.11.0" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-    <Reference Include="Microsoft.VSSDK.UnitTestLibrary" />
-    <Reference Include="Microsoft.VSSDK.TestHostFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.VSSDK.TestHostFramework" />
   </ItemGroup>
   <ItemGroup>
+    <!--<Compile Include="Properties\AssemblyInfo.cs" />-->
+    <!---->
+    <Compile Include="MenuItemTest.cs" />
+    <!---->
+    <!---->
+    <!---->
     <Compile Include="PackageTest.cs" />
-    <!---->
-    <Compile Include="MenuItemTests\MenuItemCallback.cs" />
-    <Compile Include="MenuItemTests\UIShellServiceMock.cs" />
-    <!---->
-    <!---->
-    <!---->
+    <Compile Include="IntegrationTest Library\WindowPurger.cs" />
+    <Compile Include="IntegrationTest Library\NativeMethods.cs" />
+    <Compile Include="IntegrationTest Library\Utils.cs" />
+    <Compile Include="SignOff-Tests\CPPProjectTests.cs" />
+    <Compile Include="SignOff-Tests\CSharpProjectTests.cs" />
+    <Compile Include="SignOff-Tests\SolutionTests.cs" />
+    <Compile Include="SignOff-Tests\VBProjectTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TargetFrameworkMigrator.csproj">
-      <Project>{39CEC1D1-AFFA-4E29-9F6D-F5E976207274}</Project>
+    <ProjectReference Include="..\..\Src\TargetFrameworkMigrator\TargetFrameworkMigrator.csproj">
+      <Project>{39cec1d1-affa-4e29-9f6d-f5e976207274}</Project>
       <Name>TargetFrameworkMigrator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
