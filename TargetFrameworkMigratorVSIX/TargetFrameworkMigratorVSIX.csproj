@@ -86,11 +86,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="1359311863_stock_update-fields.png">
+    <Content Include="icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="27-01-2013 19-03-27.png">
+    <Content Include="preview.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
