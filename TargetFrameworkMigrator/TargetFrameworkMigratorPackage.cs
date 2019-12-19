@@ -112,10 +112,7 @@ namespace VHQLabs.TargetFrameworkMigrator
         {
             DTE dte = (DTE)GetService(typeof(DTE));
 
-            if (migrator != null)
-            {
-                migrator.Show();
-            }
+            migrator?.Show();
         }
 
     }
