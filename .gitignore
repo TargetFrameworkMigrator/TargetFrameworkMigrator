@@ -40,7 +40,7 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
-.vs/*
+.vs 
 
 # Build results
 [Dd]ebug/
@@ -162,3 +162,5 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+/packages
