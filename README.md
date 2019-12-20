@@ -19,11 +19,22 @@ Features:
 * Support .Net Frameworks 2.0-4.8
 * Support solution folders 
 
-Available through Tools -> Target Framework Migrator
+
+## How to use
+
+Tools -> Target Framework Migrator
+
+![image](https://user-images.githubusercontent.com/5808377/71218148-bdb45a00-22c0-11ea-9347-13d37c299b7d.png)
+
+Select projects and press "Migrate"
+
+![image](https://user-images.githubusercontent.com/5808377/71218330-5ea31500-22c1-11ea-8aa8-de62af5ca6c4.png)
 
 
 Development
 ===================
+
+Use Visual Studio 2017 or 2019. The integration tests are currently broken.
 
 Frameworks list
 -------------------
@@ -34,10 +45,13 @@ Where to get Id for new framework? I get it via runtime (change one project's fr
 How to debug visual studio extension
 ------------------------------------
 
-Set "Run external program" in Debug to Visual Studio devenv.exe (e.g. C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe) and command line arguments to "/rootsuffix Exp"
+Set "Run external program" in Debug to Visual Studio devenv.exe (e.g. C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\\devenv.exe) and command line arguments to `/rootsuffix Exp`
+
+![image](https://user-images.githubusercontent.com/5808377/71218359-81352e00-22c1-11ea-8843-4661c57f3442.png)
+
 
 Roadmap
 =================
 
-- 1.7: .NET 4.7-4.8 support, bugfixes
+- 1.7: .NET 4.7-4.8 support, VS2019 support, bugfixes
 - Next: SDK support
