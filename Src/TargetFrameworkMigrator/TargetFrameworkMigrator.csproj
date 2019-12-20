@@ -124,7 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotations.cs" />
+    <Compile Include="FrameworkModel.cs" />
     <Compile Include="Guids.cs" />
+    <Compile Include="ProjectModel.cs" />
     <Compile Include="ProjectsUpdateList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,6 +176,9 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\Package.ico" />
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
