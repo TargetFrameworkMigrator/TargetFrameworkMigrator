@@ -56,7 +56,7 @@ namespace TargetFrameworkMigrator_IntegrationTests.IntegrationTests
         //
         #endregion
 
-        [HostType("VS IDE")]
+        //[HostType("VS IDE")]
         [TestMethod]
         public void VBWinformsApplication()
         {

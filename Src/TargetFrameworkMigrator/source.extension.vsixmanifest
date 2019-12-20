@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="TargetFrameworkMigrator..4f7666b9-e62c-46a1-af25-21ab8742ef00" Version="1.7.0" Language="en-US" Publisher="VHQLabs" />
+        <DisplayName>Target Framework Migrator</DisplayName>
+        <Description xml:space="preserve">Change all your .Net projects Target Framework at once</Description>
+        <Icon>icon.png</Icon>
+        <PreviewImage>preview.png</PreviewImage>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Version="[11.0,17.0]" Id="Microsoft.VisualStudio.Pro" />
+        <InstallationTarget Version="[11.0,17.0]" Id="Microsoft.VisualStudio.Community" />
+        <InstallationTarget Version="[11.0,17.0]" Id="Microsoft.VisualStudio.Enterprise" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Assets >
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="TargetFrameworkMigrator" Path="|TargetFrameworkMigrator;PkgdefProjectOutputGroup|" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.VSSDK" Version="[16.0.28315.86,17.0)" DisplayName="Visual Studio SDK" />
+    </Prerequisites>
+</PackageManifest>

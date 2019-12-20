@@ -34,7 +34,7 @@ namespace TargetFrameworkMigrator_UnitTests.MenuItemTests
         public void InitializeMenuCommand()
         {
             // Create the package
-            IVsPackage package = new TargetFrameworkMigratorPackage() as IVsPackage;
+            var package = new TargetFrameworkMigratorPackage() as IVsPackage;
             Assert.IsNotNull(package, "The object does not implement IVsPackage");
 
             // Create a basic service provider

@@ -37,7 +37,7 @@ namespace TargetFrameworkMigrator_IntegrationTests
         }
 
         [TestMethod]
-        [HostType("VS IDE")]
+        //[HostType("VS IDE")]
         public void PackageLoadTest()
         {
             UIThreadInvoker.Invoke((ThreadInvoker)delegate()

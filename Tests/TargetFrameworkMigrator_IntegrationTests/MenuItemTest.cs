@@ -38,7 +38,7 @@ namespace TargetFrameworkMigrator_IntegrationTests
         ///A test for lauching the command and closing the associated dialogbox
         ///</summary>
         [TestMethod()]
-        [HostType("VS IDE")]
+        //[HostType("VS IDE")]
         public void LaunchCommand()
         {
             UIThreadInvoker.Invoke((ThreadInvoker)delegate()

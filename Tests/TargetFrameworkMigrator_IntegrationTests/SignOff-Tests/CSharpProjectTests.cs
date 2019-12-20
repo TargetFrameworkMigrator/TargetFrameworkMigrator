@@ -56,7 +56,7 @@ namespace TargetFrameworkMigrator_IntegrationTests.IntegrationTests
         #endregion
 
         [TestMethod]
-        [HostType("VS IDE")]
+        //[HostType("VS IDE")]
         public void WinformsApplication()
         {
             UIThreadInvoker.Invoke((ThreadInvoker)delegate()

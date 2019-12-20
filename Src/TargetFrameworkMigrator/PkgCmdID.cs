@@ -4,7 +4,7 @@ using System;
 
 namespace VHQLabs.TargetFrameworkMigrator
 {
-    static class PkgCmdIDList
+    public static class PkgCmdIDList
     {
         public const uint cmdidTargetFrameworkMigrator =        0x100;
 
