@@ -18,8 +18,11 @@ namespace VSChangeTargetFrameworkExtension
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            dataGridView1.CellMouseUp += dataGridView1_OnCellMouseUp;
+            dataGridView1.CellMouseUp += DataGridView1_OnCellMouseUp;
+            dataGridView1.RowEnter += DataGridView1_RowEnter;
+            dataGridView1.RowLeave += DataGridView1_RowLeave;
         }
+
 
         public List<FrameworkModel> Frameworks
         {
@@ -150,12 +153,41 @@ namespace VSChangeTargetFrameworkExtension
             ReloadFired?.Invoke();
         }
 
-        private void dataGridView1_OnCellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView1_OnCellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             // Click on checkbox is done editing
             if (e.ColumnIndex == Update.Index && e.RowIndex != -1)
             {
                 dataGridView1.EndEdit();
+            }
+        }
+
+        private int? rowIndex;
+
+        private void DataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            rowIndex = e.RowIndex;
+        }
+
+
+        private void DataGridView1_RowLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            rowIndex = null;
+        }
+
+        private void DataGridView1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+            {
+                //handle space in the correct row, and also end editing
+                if (rowIndex.HasValue)
+                {
+                    //toggle
+                    var projectModel = Projects[rowIndex.Value];
+                    projectModel.IsSelected = !projectModel.IsSelected;
+                }
+                dataGridView1.EndEdit();
+
             }
         }
     }
