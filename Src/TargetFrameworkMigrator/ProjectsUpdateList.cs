@@ -18,6 +18,7 @@ namespace VSChangeTargetFrameworkExtension
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            dataGridView1.CellMouseUp += dataGridView1_OnCellMouseUp;
         }
 
         public List<FrameworkModel> Frameworks
@@ -37,10 +38,7 @@ namespace VSChangeTargetFrameworkExtension
                     dataGridView1.DataSource = wrapperBindingList;
                     dataGridView1.Refresh();
 
-                    foreach (var projectModel in wrapperBindingList)
-                    {
-                        projectModel.PropertyChanged += ProjectModel_PropertyChanged;
-                    }
+                    SetPropertyChanged(wrapperBindingList);
                 }
                 catch (InvalidOperationException)
                 {
@@ -48,11 +46,8 @@ namespace VSChangeTargetFrameworkExtension
                     {
                         dataGridView1.DataSource = wrapperBindingList;
                         dataGridView1.Refresh();
-                        
-                        foreach (var projectModel in wrapperBindingList)
-                        {
-                            projectModel.PropertyChanged += ProjectModel_PropertyChanged;
-                        }
+
+                        SetPropertyChanged(wrapperBindingList);
                     }));
                 }
             }
@@ -62,15 +57,25 @@ namespace VSChangeTargetFrameworkExtension
                 try
                 {
                     wrapperBindingList = (SortableBindingList<ProjectModel>)dataGridView1.DataSource;
+                    SetPropertyChanged(wrapperBindingList);
                 }
                 catch (InvalidOperationException)
                 {
                     Invoke(new EventHandler(delegate
                     {
                         wrapperBindingList = (SortableBindingList<ProjectModel>)dataGridView1.DataSource;
+                        SetPropertyChanged(wrapperBindingList);
                     }));
                 }
                 return wrapperBindingList.WrappedList;
+            }
+        }
+
+        private void SetPropertyChanged(SortableBindingList<ProjectModel> wrapperBindingList)
+        {
+            foreach (var projectModel in wrapperBindingList)
+            {
+                projectModel.PropertyChanged += ProjectModel_PropertyChanged;
             }
         }
 
@@ -143,6 +148,15 @@ namespace VSChangeTargetFrameworkExtension
         private void reloadButton_Click(object sender, EventArgs e)
         {
             ReloadFired?.Invoke();
+        }
+
+        private void dataGridView1_OnCellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Click on checkbox is done editing
+            if (e.ColumnIndex == Update.Index && e.RowIndex != -1)
+            {
+                dataGridView1.EndEdit();
+            }
         }
     }
 }
