@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,6 +22,19 @@ namespace VSChangeTargetFrameworkExtension
             dataGridView1.CellMouseUp += DataGridView1_OnCellMouseUp;
             dataGridView1.RowEnter += DataGridView1_RowEnter;
             dataGridView1.RowLeave += DataGridView1_RowLeave;
+            EnableButtons();
+        }
+
+        private void EnableButtons()
+        {
+            button1.Enabled = EnabledButton;
+            button2.Enabled = EnabledButton;
+            button3.Enabled = EnabledButton;
+        }
+
+        public bool EnabledButton
+        {
+            get => Projects?.Count(p => p.IsSelected) > 0;
         }
 
 
@@ -31,6 +45,8 @@ namespace VSChangeTargetFrameworkExtension
                 comboBox1.DataSource = value;
             }
         }
+
+
         public List<ProjectModel> Projects
         {
             set
@@ -70,20 +86,24 @@ namespace VSChangeTargetFrameworkExtension
                         SetPropertyChanged(wrapperBindingList);
                     }));
                 }
-                return wrapperBindingList.WrappedList;
+                return wrapperBindingList?.WrappedList;
             }
         }
 
         private void SetPropertyChanged(SortableBindingList<ProjectModel> wrapperBindingList)
         {
-            foreach (var projectModel in wrapperBindingList)
+            if (wrapperBindingList != null)
             {
-                projectModel.PropertyChanged += ProjectModel_PropertyChanged;
+                foreach (var projectModel in wrapperBindingList)
+                {
+                    projectModel.PropertyChanged += ProjectModel_PropertyChanged;
+                }
             }
         }
 
         private void ProjectModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            EnableButtons();
             SelectedFired?.Invoke();
         }
 
