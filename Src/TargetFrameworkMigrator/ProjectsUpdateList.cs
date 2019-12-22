@@ -103,7 +103,7 @@ namespace VSChangeTargetFrameworkExtension
 
         private void ProjectModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            EnableButtons();
+            EnableButtons(); //fixme invokes properychangs
             SelectedFired?.Invoke();
         }
 
