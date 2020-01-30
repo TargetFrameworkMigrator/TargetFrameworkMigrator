@@ -124,13 +124,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotations.cs" />
+    <Compile Include="Models\FrameworkModel.cs" />
     <Compile Include="Guids.cs" />
+    <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="ProjectsUpdateList.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProjectsUpdateList.Designer.cs">
       <DependentUpon>ProjectsUpdateList.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyComparer.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -138,6 +141,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Migrator.cs" />
+    <Compile Include="SolutionLoadEvents.cs" />
     <Compile Include="SortableBindingList.cs" />
     <Compile Include="TargetFrameworkMigratorPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,6 +189,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

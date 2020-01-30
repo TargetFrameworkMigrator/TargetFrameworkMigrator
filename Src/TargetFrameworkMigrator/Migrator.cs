@@ -1,4 +1,5 @@
 ﻿// Copyright (c) 2013 Pavel Samokha
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,8 +13,9 @@ using System.Windows.Forms;
 using System.Xml;
 using EnvDTE;
 using EnvDTE80;
+using VSChangeTargetFrameworkExtension;
 
-namespace VSChangeTargetFrameworkExtension
+namespace VHQLabs.TargetFrameworkMigrator
 {
   public class Migrator
   {

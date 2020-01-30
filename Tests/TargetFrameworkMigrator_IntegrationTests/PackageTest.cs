@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
-using EnvDTE;
 
-namespace TargetFrameworkMigrator_IntegrationTests
+namespace TargetFrameworkMigrator.IntegrationTests
 {
     /// <summary>
     /// Integration test for package validation

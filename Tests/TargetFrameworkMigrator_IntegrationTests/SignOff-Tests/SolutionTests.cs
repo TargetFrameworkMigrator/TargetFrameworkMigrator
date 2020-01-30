@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
-using EnvDTE;
-using System.IO;
-using Microsoft.VsSDK.IntegrationTestLibrary;
 
-
-namespace TargetFrameworkMigrator_IntegrationTests.IntegrationTests
+namespace TargetFrameworkMigrator.IntegrationTests
 {
     [TestClass]
     public class SolutionTests

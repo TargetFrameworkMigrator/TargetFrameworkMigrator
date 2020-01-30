@@ -9,15 +9,12 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 
 ***************************************************************************/
 
-namespace Microsoft.VsSDK.IntegrationTestLibrary
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Runtime.InteropServices;
-    using System.Threading;
-    using Microsoft.VisualStudio.Shell.Interop;
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
 
+namespace TargetFrameworkMigrator.IntegrationTests
+{
     /// <summary>
     /// Defines pinvoked utility methods and internal VS Constants
     /// </summary>

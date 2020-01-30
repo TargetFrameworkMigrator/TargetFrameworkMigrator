@@ -15,9 +15,8 @@
  */
 
 using System;
-using System.ComponentModel;
 
-namespace VSChangeTargetFrameworkExtension.Annotations
+namespace VHQLabs.TargetFrameworkMigrator
 {
   /// <summary>
   /// Indicates that marked element should be localized or not.
