@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace VSChangeTargetFrameworkExtension
+namespace VHQLabs.TargetFrameworkMigrator
 {
     /// <summary>
     /// helper class for supporting comparison operations in SortableBindingList

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VSChangeTargetFrameworkExtension
+namespace VHQLabs.TargetFrameworkMigrator
 {
     public class FrameworkModel : IComparable
     {

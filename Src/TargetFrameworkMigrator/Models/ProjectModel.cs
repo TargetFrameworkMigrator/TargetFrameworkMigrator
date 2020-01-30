@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using EnvDTE;
-using VSChangeTargetFrameworkExtension.Annotations;
 
-namespace VSChangeTargetFrameworkExtension
+namespace VHQLabs.TargetFrameworkMigrator
 {
     public class ProjectModel : INotifyPropertyChanged
     {

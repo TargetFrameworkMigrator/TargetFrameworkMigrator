@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace VSChangeTargetFrameworkExtension
+namespace VHQLabs.TargetFrameworkMigrator
 {
     /// <summary>
     ///  List wrapper class to provide basic sorting operations when bound to a DataGrid view.  
