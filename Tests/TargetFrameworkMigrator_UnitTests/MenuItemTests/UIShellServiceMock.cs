@@ -14,7 +14,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VsSDK.UnitTestLibrary;
 
-namespace TargetFrameworkMigrator_UnitTests
+namespace TargetFrameworkMigrator.UnitTests
 {
     static class UIShellServiceMock
     {

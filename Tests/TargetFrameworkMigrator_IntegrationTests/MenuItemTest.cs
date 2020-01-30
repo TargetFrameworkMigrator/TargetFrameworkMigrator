@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.ComponentModel.Design;
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VsSDK.IntegrationTestLibrary;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
-using System.Diagnostics;
 
-namespace TargetFrameworkMigrator_IntegrationTests
+namespace TargetFrameworkMigrator.IntegrationTests
 {
     [TestClass()]
     public class MenuItemTest

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VsSDK.IntegrationTestLibrary;
-using Microsoft.VSSDK.Tools.VsIdeTesting;
-using EnvDTE;
 using System.IO;
+using EnvDTE;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VSSDK.Tools.VsIdeTesting;
 
-namespace TargetFrameworkMigrator_IntegrationTests.IntegrationTests
+namespace TargetFrameworkMigrator.IntegrationTests
 {
     [TestClass]
     public class CPPProjectTests

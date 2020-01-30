@@ -1,23 +1,17 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Reflection;
-using System.Diagnostics;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Runtime.InteropServices;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using EnvDTE;
 using EnvDTE80;
-using Microsoft.Win32;
-using IOleServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VSSDK.Tools.VsIdeTesting;
-using Microsoft.VisualStudio;
 
-namespace Microsoft.VsSDK.IntegrationTestLibrary
+namespace TargetFrameworkMigrator.IntegrationTests
 {
     /// <summary>
     /// </summary>

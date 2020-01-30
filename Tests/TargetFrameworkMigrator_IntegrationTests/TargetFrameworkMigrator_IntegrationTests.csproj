@@ -7,7 +7,7 @@
     <ProjectGuid>{01FA1704-36DE-4C83-AACD-23A51281E0FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TargetFrameworkMigrator_IntegrationTests</RootNamespace>
+    <RootNamespace>TargetFrameworkMigrator.IntegrationTests</RootNamespace>
     <AssemblyName>TargetFrameworkMigrator_IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

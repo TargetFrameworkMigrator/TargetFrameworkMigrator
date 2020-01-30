@@ -10,17 +10,15 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 ***************************************************************************/
 
 using System;
-using System.Collections;
-using System.Text;
-using System.Reflection;
 using System.ComponentModel.Design;
-using Microsoft.VsSDK.UnitTestLibrary;
+using System.Reflection;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.Shell;
+using Microsoft.VsSDK.UnitTestLibrary;
 using VHQLabs.TargetFrameworkMigrator;
 
-namespace TargetFrameworkMigrator_UnitTests.MenuItemTests
+namespace TargetFrameworkMigrator.UnitTests
 {
     [TestClass()]
     public class MenuItemTest

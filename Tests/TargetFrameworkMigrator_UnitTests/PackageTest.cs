@@ -10,15 +10,12 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 ***************************************************************************/
 
 using System;
-using System.Collections;
-using System.Text;
-using System.Reflection;
-using Microsoft.VsSDK.UnitTestLibrary;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VsSDK.UnitTestLibrary;
 using VHQLabs.TargetFrameworkMigrator;
 
-namespace TargetFrameworkMigrator_UnitTests
+namespace TargetFrameworkMigrator.UnitTests
 {
     [TestClass()]
     public class PackageTest
