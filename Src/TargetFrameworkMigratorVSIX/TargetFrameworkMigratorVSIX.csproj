@@ -95,6 +95,8 @@
     <ProjectReference Include="..\TargetFrameworkMigrator\TargetFrameworkMigrator.csproj">
       <Project>{39cec1d1-affa-4e29-9f6d-f5e976207274}</Project>
       <Name>TargetFrameworkMigrator</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bPkgdefProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>	
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
