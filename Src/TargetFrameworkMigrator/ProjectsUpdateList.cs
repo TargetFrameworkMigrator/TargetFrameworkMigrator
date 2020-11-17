@@ -32,17 +32,15 @@ namespace VSChangeTargetFrameworkExtension
       set
       {
         var wrapperBindingList = new SortableBindingList<ProjectModel>(value);
-        try
+        if (!InvokeRequired)
         {
           dataGridView1.DataSource = wrapperBindingList;
-          dataGridView1.Refresh();
         }
-        catch (InvalidOperationException)
+        else
         {
           Invoke(new EventHandler(delegate
           {
             dataGridView1.DataSource = wrapperBindingList;
-            dataGridView1.Refresh();
           }));
         }
       }
@@ -81,11 +79,11 @@ namespace VSChangeTargetFrameworkExtension
     {
       set
       {
-        try
+        if (!InvokeRequired)
         {
-          label1.Text = value;
+          label1.Text = value; 
         }
-        catch (InvalidOperationException)
+        else
         {
           Invoke(new EventHandler(delegate
           {
