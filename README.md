@@ -18,6 +18,7 @@ Features:
 
 * Support .Net Frameworks 2.0-4.8
 * Support solution folders 
+* Note: SDK-style csproj files (e.g. .NET Core and .NET Standard) aren't supported yet
 
 
 ## How to use
@@ -54,4 +55,4 @@ Roadmap
 =================
 
 - 1.7: .NET 4.7-4.8 support, VS2019 support, bugfixes
-- Next: SDK support
+- 1.8: SDK-style csproj files (e.g. .NET Core and .NET Standard) 
