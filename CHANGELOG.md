@@ -1,11 +1,12 @@
 1.7.0:
-- Updated Migrator so that ArgumentExceptions are checked @Edward84)
+
+- Fixed installation issues on VS2019 (@304NotModified)
 - Added .NET 4.7-4.8 and VS 2019 support (@Ian1971)
-- Support VS2012-VS2019 for all editions (@304NotModified)
+- Support for VS2012-VS2019 and for all editions (@304NotModified)
 - Fix crashes after migration (@kkapuscinski, @304NotModified)
-- Installation issues on VS2019 (@304NotModified)
 - Start cleanup code (@304NotModified)
 - CI integration (@304NotModified)
+- Updated Migrator so that ArgumentExceptions are checked @Edward84)
 
 Note: SDK-style projects aren't supported yet.
 
