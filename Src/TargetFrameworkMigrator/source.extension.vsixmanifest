@@ -17,6 +17,6 @@
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="TargetFrameworkMigrator" Path="|TargetFrameworkMigrator;PkgdefProjectOutputGroup|" />
     </Assets>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.VSSDK" Version="[16.0.28315.86,17.0)" DisplayName="Visual Studio SDK" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[14.0,18.0]" />
     </Prerequisites>
 </PackageManifest>
