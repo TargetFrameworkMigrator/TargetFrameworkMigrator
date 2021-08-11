@@ -1,3 +1,7 @@
+1.7.1:
+
+- Fixed installation issues on VS2017 & VS2019 (@304NotModified)
+
 1.7.0:
 
 - Fixed installation issues on VS2019 (@304NotModified)
