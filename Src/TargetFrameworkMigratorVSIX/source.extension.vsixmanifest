@@ -19,6 +19,6 @@
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="TargetFrameworkMigrator" Path="|TargetFrameworkMigrator;PkgdefProjectOutputGroup|" />
     </Assets>
     <Prerequisites>
-   <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[14.0,17.0)" />
+   <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[11.0,17.0)" />
     </Prerequisites>
 </PackageManifest>
