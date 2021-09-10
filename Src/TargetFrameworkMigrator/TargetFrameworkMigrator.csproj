@@ -97,7 +97,7 @@
     <Reference Include="Microsoft.CSharp" />
     <PackageReference Include="Microsoft.VisualStudio.OLE.Interop" Version="7.10.6072" />
     <PackageReference Include="Microsoft.VisualStudio.Sdk" Version="15.0.0" />
-   <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -107,61 +107,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Annotations.cs" />
-    <Compile Include="Models\FrameworkModel.cs" />
-    <Compile Include="Guids.cs" />
-    <Compile Include="Models\ProjectModel.cs" />
-    <Compile Include="ProjectsUpdateList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProjectsUpdateList.Designer.cs">
-      <DependentUpon>ProjectsUpdateList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PropertyComparer.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Migrator.cs" />
-    <Compile Include="SolutionLoadEvents.cs" />
-    <Compile Include="SortableBindingList.cs" />
-    <Compile Include="TargetFrameworkMigratorPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PkgCmdID.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ProjectsUpdateList.resx">
-      <DependentUpon>ProjectsUpdateList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VSPackage.resx">
-      <MergeWithCTO>true</MergeWithCTO>
-      <ManifestResourceName>VSPackage</ManifestResourceName>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <VSCTCompile Include="TargetFrameworkMigrator.vsct">
-      <ResourceName>Menus.ctmenu</ResourceName>
-    </VSCTCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Images.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Frameworks.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Resources\Package.ico" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -173,7 +122,23 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <VSCTCompile Include="..\SharedFiles\TargetFrameworkMigrator.vsct">
+      <Link>TargetFrameworkMigrator.vsct</Link>
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\SharedFiles\Resources\Images.png">
+      <Link>Resources\Images.png</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\SharedFiles\Resources\Package.ico">
+      <Link>Resources\Package.ico</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+  <Import Project="..\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems" Label="Shared" />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

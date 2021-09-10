@@ -15,7 +15,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator_Uni
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AC6673EA-5CD9-4461-856B-ECB322831AA0}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TargetFrameworkMigrator.Shared", "Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.shproj", "{9E2C7158-0DCE-4933-BC2D-070318E2C1C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator.VS2022", "Src\TargetFrameworkMigrator.VS2022\TargetFrameworkMigrator.VS2022.csproj", "{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems*{39cec1d1-affa-4e29-9f6d-f5e976207274}*SharedItemsImports = 4
+		Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems*{9e2c7158-0dce-4933-bc2d-070318e2c1c5}*SharedItemsImports = 13
+		Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems*{bb42e928-b45b-44bd-b1f8-01c7cb7eb370}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|X64 = Debug|X64
@@ -65,6 +74,18 @@ Global
 		{79F8DBB8-E7C4-4899-A3BA-753BDB952BB5}.Release|X64.ActiveCfg = Release|Any CPU
 		{79F8DBB8-E7C4-4899-A3BA-753BDB952BB5}.Release|x86.ActiveCfg = Release|x86
 		{79F8DBB8-E7C4-4899-A3BA-753BDB952BB5}.Release|x86.Build.0 = Release|x86
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Debug|X64.ActiveCfg = Debug|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Debug|X64.Build.0 = Debug|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|X64.ActiveCfg = Release|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|X64.Build.0 = Release|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
