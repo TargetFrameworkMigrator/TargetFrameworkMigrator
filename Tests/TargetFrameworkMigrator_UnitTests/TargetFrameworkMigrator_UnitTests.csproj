@@ -55,10 +55,17 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-	  <PackageReference Include="Microsoft.VisualStudio.Sdk" Version="15.0.0" />
-	  <PackageReference Include="Microsoft.VSSDK.UnitTestLibrary" Version="14.3.25407" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-    <Reference Include="Microsoft.VSSDK.TestHostFramework" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk">
+      <Version>16.9.4</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Sdk" Version="15.0.0" />
+    <PackageReference Include="Microsoft.VSSDK.UnitTestLibrary" Version="14.3.25407" />
+    <PackageReference Include="MSTest.TestAdapter">
+      <Version>2.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestFramework">
+      <Version>2.2.3</Version>
+    </PackageReference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
