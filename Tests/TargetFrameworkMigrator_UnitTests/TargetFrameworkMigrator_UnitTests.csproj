@@ -83,6 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
+    <Content Include="..\SharedFiles\Frameworks.xml">
+      <Link>Frameworks.xml</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Src\TargetFrameworkMigrator\TargetFrameworkMigrator.csproj">

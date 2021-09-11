@@ -86,6 +86,10 @@
       <Link>Resources\Package.ico</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="..\SharedFiles\Frameworks.xml">
+      <Link>Frameworks.xml</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <Import Project="..\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

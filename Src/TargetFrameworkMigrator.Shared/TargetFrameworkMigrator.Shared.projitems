@@ -33,11 +33,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)TargetFrameworkMigratorPackage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Frameworks.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ProjectsUpdateList.resx">
       <DependentUpon>ProjectsUpdateList.cs</DependentUpon>
     </EmbeddedResource>
