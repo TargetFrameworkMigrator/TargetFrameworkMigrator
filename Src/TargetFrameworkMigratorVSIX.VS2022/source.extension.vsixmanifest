@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="TargetFrameworkMigrator.VS2022.b8a2e3fa-1c60-4cfc-9c6b-b961a57f7fc0" Version="1.0" Language="en-US" Publisher="Julian Verdurmen" />
+        <Identity Id="TargetFrameworkMigrator.VS2022.b8a2e3fa-1c60-4cfc-9c6b-b961a57f7fc0" Version="1.8.0" Language="en-US" Publisher="Julian Verdurmen" />
         <DisplayName>TargetFrameworkMigrator.VS2022 (local)</DisplayName>
         <Description xml:space="preserve">Change all your .Net projects Target Framework at once - VS2022 edition</Description>
         <Icon>icon.png</Icon>
