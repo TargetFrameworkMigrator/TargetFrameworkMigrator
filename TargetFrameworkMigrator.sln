@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29609.76
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{83F41A10-B8A1-4B99-9729-A65C595ECE81}"
 EndProject
@@ -17,9 +17,12 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TargetFrameworkMigrator.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigrator.VS2022", "Src\TargetFrameworkMigrator.VS2022\TargetFrameworkMigrator.VS2022.csproj", "{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetFrameworkMigratorVSIX.VS2022", "Src\TargetFrameworkMigratorVSIX.VS2022\TargetFrameworkMigratorVSIX.VS2022.csproj", "{74930332-72A4-43BB-8626-682A300B590E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems*{39cec1d1-affa-4e29-9f6d-f5e976207274}*SharedItemsImports = 4
+		Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems*{74930332-72a4-43bb-8626-682a300b590e}*SharedItemsImports = 4
 		Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems*{9e2c7158-0dce-4933-bc2d-070318e2c1c5}*SharedItemsImports = 13
 		Src\TargetFrameworkMigrator.Shared\TargetFrameworkMigrator.Shared.projitems*{bb42e928-b45b-44bd-b1f8-01c7cb7eb370}*SharedItemsImports = 4
 	EndGlobalSection
@@ -74,6 +77,18 @@ Global
 		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|X64.Build.0 = Release|Any CPU
 		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|x86.ActiveCfg = Release|Any CPU
 		{BB42E928-B45B-44BD-B1F8-01C7CB7EB370}.Release|x86.Build.0 = Release|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Debug|X64.ActiveCfg = Debug|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Debug|X64.Build.0 = Debug|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Debug|x86.ActiveCfg = Debug|x86
+		{74930332-72A4-43BB-8626-682A300B590E}.Debug|x86.Build.0 = Debug|x86
+		{74930332-72A4-43BB-8626-682A300B590E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Release|X64.ActiveCfg = Release|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Release|X64.Build.0 = Release|Any CPU
+		{74930332-72A4-43BB-8626-682A300B590E}.Release|x86.ActiveCfg = Release|x86
+		{74930332-72A4-43BB-8626-682A300B590E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
