@@ -55,7 +55,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-	  <PackageReference Include="Microsoft.VisualStudio.OLE.Interop" Version="7.10.6072" />
 	  <PackageReference Include="Microsoft.VisualStudio.Sdk" Version="15.0.0" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
     <Reference Include="Microsoft.VSSDK.UnitTestLibrary" />
