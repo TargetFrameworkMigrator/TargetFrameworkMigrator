@@ -56,8 +56,8 @@
   </PropertyGroup>
   <ItemGroup>
 	  <PackageReference Include="Microsoft.VisualStudio.Sdk" Version="15.0.0" />
+	  <PackageReference Include="Microsoft.VSSDK.UnitTestLibrary" Version="14.3.25407" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-    <Reference Include="Microsoft.VSSDK.UnitTestLibrary" />
     <Reference Include="Microsoft.VSSDK.TestHostFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
