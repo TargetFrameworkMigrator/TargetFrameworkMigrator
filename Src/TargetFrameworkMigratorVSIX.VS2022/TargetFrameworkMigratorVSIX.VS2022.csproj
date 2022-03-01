@@ -78,6 +78,10 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\SharedFiles\Frameworks.xml">
+      <Link>Frameworks.xml</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="..\SharedFiles\Resources\Images.png">
       <Link>Resources\Images.png</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
