@@ -4,7 +4,7 @@ skip_branch_with_pr: true
 image: Visual Studio 2019
 configuration: Release
 before_build:
-- nuget restore TargetFrameworkMigrator.sln
+- nuget restore TargetFrameworkMigrator.sln -verbosity quiet
 build:
   project: TargetFrameworkMigrator.sln
   parallel: true
